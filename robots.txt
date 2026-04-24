@@ -1,0 +1,10 @@
+# robots.txt for [Brickstory]
+
+# Allow all bots to crawl everything (except for disallowed areas)
+User-agent: *
+Disallow: /brickstoryadmin/login
+Disallow: /tmp/
+Disallow: /cgi-bin/
+
+# Sitemap location (replace with your actual URL)
+Sitemap: https://brickstory.com/sitemap.xml

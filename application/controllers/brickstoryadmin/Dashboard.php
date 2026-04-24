@@ -1,0 +1,12 @@
+<?php
+defined('BASEPATH') OR exit('No direct script access allowed');
+
+class Dashboard extends Admin_Controller {
+
+	public function index()
+	{
+		$data['title'] = "Dashboard";
+		$data['filename'] = "dashboard";
+		$this->load->view('admin/layout',$data);
+	}
+}
