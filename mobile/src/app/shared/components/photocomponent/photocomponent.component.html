@@ -1,0 +1,19 @@
+<ion-card [ngStyle]="{'--background': backgroundStyle}" (click)="homeDetails()">
+  <div class="top-label">
+    <ion-text color="light">
+      <h3>
+        {{ getYear(photoAndStories.approximate_date) }}
+      </h3>
+    </ion-text>
+  </div>
+  <div class="footer-container">
+    <div class="ribbon"> {{photoAndStories.city | titlecase}},{{ photoAndStories.state|titlecase }}</div>
+    <div class="buttons">
+      <ion-buttons>
+        <ion-button shape="round" expand="block" color="light" fill="solid" (click)="homeDetails()">
+          View Details
+        </ion-button>
+      </ion-buttons>
+    </div>
+  </div>
+</ion-card>

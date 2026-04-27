@@ -1,0 +1,52 @@
+<ion-tabs>
+  <ion-fab vertical="bottom" horizontal="center" translucent="true">
+    <ion-fab-button tab="nearby" tab="location" (click)="location()">
+      <div class="button-inner">
+        <ion-icon
+          color="secondary"
+          [name]="router.url.includes('/tabs/location') ? 'location' : 'location-outline'"
+        ></ion-icon>
+        <ion-label class="fab-label">Near Me</ion-label>
+      </div>
+    </ion-fab-button>
+  </ion-fab>
+  <ion-tab-bar slot="bottom" class="ion-no-border">
+    <ion-tab-button tab="home" href="/tabs/home">
+      <ion-icon
+        [name]="router.url.includes('/tabs/home') ? 'home' : 'home-outline'"
+      ></ion-icon>
+      <ion-label>Home</ion-label>
+    </ion-tab-button>
+    <ion-tab-button
+      class="comments"
+      (click)="router.navigate(['/screens/add-home'])"
+    >
+      <ion-icon name="add" color="secondary"></ion-icon>
+      <ion-label>Add Home</ion-label>
+    </ion-tab-button>
+    <svg
+      height="50"
+      viewBox="0 0 100 50"
+      width="100"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M100 0v50H0V0c.543 27.153 22.72 49 50 49S99.457 27.153 99.99 0h.01z"
+        fill="none"
+        fill-rule="evenodd"
+      ></path>
+    </svg>
+    <ion-tab-button tab="all-house" class="notifications notifs">
+      <ion-icon
+        [name]="router.url.includes('/tabs/all-house') ? 'business' : 'business-outline'"
+      ></ion-icon>
+      <ion-label>Houses</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="profile" (click)="router.navigate(['/tabs/profile'])">
+      <ion-icon
+        [name]="router.url.includes('/tabs/profile') ? 'person' : 'person-outline'"
+      ></ion-icon>
+      <ion-label>Profile</ion-label>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

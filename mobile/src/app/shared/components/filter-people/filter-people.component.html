@@ -1,0 +1,34 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()" >Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>
+      Filter
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button  (click)="confirm()" [strong]="true">Confirm</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-text color="primary">First Name</ion-text>
+    <ion-item lines="none" class="ion-margin-bottom">
+      <ion-input type="text" placeholder="First Name" [(ngModel)]="filterArray.first_name"></ion-input>
+    </ion-item>
+    <ion-text color="primary">Last Name</ion-text>
+    <ion-item lines="none" class="ion-margin-bottom"> 
+      <ion-input type="text" placeholder="Last Name" [(ngModel)]="filterArray.last_name"></ion-input>
+    </ion-item>
+    <ion-text color="primary">Relationship</ion-text>
+    <ion-item lines="none">
+      <ion-select placeholder="Relationship" interface="action-sheet" mode="ios" [(ngModel)]="filterArray.relation">
+        <ion-select-option [value]="item.key"
+          *ngFor="let item of relationShips| keyvalue">{{item.value}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-checkbox class="ion-margin-top"  labelPlacement="end" [(ngModel)]="filterArray.nrhp">NRHP Property</ion-checkbox>
+    <ion-button class="ion-margin-top" mode="ios" expand="block" (click)="confirm()">Filter people</ion-button>
+  </ion-list>
+</ion-content>

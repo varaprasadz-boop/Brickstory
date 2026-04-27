@@ -1,0 +1,30 @@
+ion-list,
+ion-button {
+  margin: auto;
+  max-width: 500px;
+  background: transparent !important;
+  ion-item {
+    margin: 10px 0px;
+    border-radius: 10px;
+    ion-avatar {
+      --border-radius: 4px;
+    }
+    ion-textarea{
+        height: 150px;
+    }
+  }
+  .error {
+    border: 2px solid red !important;
+  }
+  
+  .error-message {
+    color: red;
+    margin-top: -8px;
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .error-message span {
+    display: block;
+  }
+}

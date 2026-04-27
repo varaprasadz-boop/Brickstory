@@ -1,0 +1,19 @@
+ion-list {
+    background-color:transparent;
+    ion-item {
+    margin-top: 10px;
+    border-radius: 15px;
+    }
+    ion-select::part(icon) {
+        position: absolute;
+        right: var(--padding-end);
+      }
+    .custom-infinite-scroll-content {
+        margin-top: 10px;
+      }
+    ion-avatar {
+        height: 60px;
+        width: 60px;
+    }
+
+}

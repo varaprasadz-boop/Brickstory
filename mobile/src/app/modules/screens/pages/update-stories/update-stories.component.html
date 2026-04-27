@@ -1,0 +1,144 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title color="primary" class="login"> Update Photo & Story </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-list lines="none">
+    <ion-label>Approximate Date</ion-label>
+    <ion-item>
+      <ion-input
+        type="date"
+        placeholder="Approximate Date"
+        [(ngModel)]="photoAndStory.approximate_date"
+      ></ion-input>
+    </ion-item>
+    <ion-label>Setting</ion-label>
+    <ion-item>
+      <ion-select
+        interface="action-sheet"
+        mode="ios"
+        placeholder="Setting"
+        [(ngModel)]="photoAndStory.setting_id"
+      >
+        <ion-select-option
+          *ngFor="let item of setting | keyvalue"
+          [value]="item.key"
+          >{{ item.value }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+    <ion-label>Season</ion-label>
+    <ion-item>
+      <ion-select
+        interface="action-sheet"
+        mode="ios"
+        placeholder="Season"
+        [(ngModel)]="photoAndStory.season_id"
+      >
+        <ion-select-option
+          *ngFor="let item of season | keyvalue"
+          [value]="item.key"
+        >
+          {{ item.value }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-label>Events</ion-label>
+    <ion-item>
+      <ion-select
+        interface="action-sheet"
+        mode="ios"
+        placeholder="Events"
+        [(ngModel)]="photoAndStory.event_id"
+      >
+        <ion-select-option
+          *ngFor="let item of event | keyvalue"
+          [value]="item.key"
+          >{{ item.value }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-label>Side of House</ion-label>
+    <ion-item>
+      <ion-select
+        interface="action-sheet"
+        mode="ios"
+        placeholder="Side of House"
+        [(ngModel)]="photoAndStory.side_of_house_id"
+      >
+        <ion-select-option
+          *ngFor="let item of sideOfHouse | keyvalue"
+          [value]="item.key"
+          >{{ item.value }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+    <ng-container *ngIf="!isOutdoorsSelected()">
+      <ion-label>Room</ion-label>
+      <ion-item>
+        <ion-select
+          interface="action-sheet"
+          mode="ios"
+          placeholder="Room"
+          [(ngModel)]="photoAndStory.room_id"
+        >
+          <ion-select-option
+            *ngFor="let item of room | keyvalue"
+            [value]="item.key"
+          >
+            {{ item.value }}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ng-container>
+    <ion-label>Story</ion-label>
+    <ion-item>
+      <ion-textarea
+        class="custom"
+        placeholder="Enter Story"
+        style="height: 150px"
+        [(ngModel)]="photoAndStory.brickstory_desc"
+      ></ion-textarea>
+    </ion-item>
+    <ion-item button="true" (click)="takePictureFromCamera()">
+      <ion-text>
+        <p style="color: #656565">Choose Image</p>
+      </ion-text>
+    </ion-item>
+    <ion-item
+      *ngIf="this.photoAndStory.image != ''"
+      style="--background: none; margin-top: 20px"
+    >
+      <div class="choosed-img" id="imagePreview">
+        <ion-icon
+          color="primary"
+          (click)="clearImage()"
+          name="close-circle"
+        ></ion-icon>
+        <ion-avatar>
+          <img
+            [src]="this.photoAndStory.image"
+            onerror="this.src='../../../../../assets/img/story.png'"
+          />
+        </ion-avatar>
+      </div>
+    </ion-item>
+    <div *ngIf="this.photoAndStory.image !== ''">
+      <ion-label>Image Source (Optional)</ion-label>
+      <ion-item>
+        <ion-input
+          type="text"
+          placeholder="Image Source"
+          [(ngModel)]="photoAndStory.image_source"
+        ></ion-input>
+      </ion-item>
+    </div>
+  </ion-list>
+  <ion-button expand="block" mode="ios" (click)="updateStories()"
+    >Update Photos & Stories</ion-button
+  >
+</ion-content>

@@ -1,0 +1,93 @@
+<ion-header mode="ios" class="ion-no-border">
+  <ion-toolbar>
+    <ion-title class="ion-text-center">Similar House Found</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <!-- Always-visible address toolbar under header -->
+  <ion-toolbar class="address-toolbar" *ngIf="similarHouse">
+    <ion-item lines="none">
+      <ion-icon name="location-outline" slot="start"></ion-icon>
+      <ion-label class="header-address">
+        <div class="address-line">{{ similarHouse.address1 }}</div>
+        <div class="address-sub">{{ similarHouse.city }}, {{ similarHouse.state }} {{ similarHouse.zip }}</div>
+      </ion-label>
+    </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="modal-content">
+    <div class="alert-section">
+      <ion-icon name="home" class="alert-icon"></ion-icon>
+      <h2>We found a similar house!</h2>
+      <p>It looks like this house might already exist in our database. Please review the details below.</p>
+    </div>
+
+    <div class="house-details" *ngIf="similarHouse">
+      <ion-card class="house-card">
+        <div class="house-image" *ngIf="similarHouse.home_profile_photo">
+          <img [src]="similarHouse.home_profile_photo" alt="House image">
+        </div>
+        <div class="house-image placeholder" *ngIf="!similarHouse.home_profile_photo">
+          <ion-icon name="home-outline"></ion-icon>
+        </div>
+        
+        <ion-card-content>
+          <div class="address-info">
+            <h3>{{ similarHouse.address1 }}</h3>
+            <p class="address-details">
+              {{ similarHouse.city }}, {{ similarHouse.state }} {{ similarHouse.zip }}
+            </p>
+          </div>
+          
+          <div class="house-info">
+            <div class="info-item" *ngIf="similarHouse.year_built">
+              <ion-icon name="calendar-outline"></ion-icon>
+              <span>Built in {{ similarHouse.year_built }}</span>
+            </div>
+            <div class="info-item" *ngIf="similarHouse.square_feet">
+              <ion-icon name="resize-outline"></ion-icon>
+              <span>{{ similarHouse.square_feet }} sq ft</span>
+            </div>
+            <div class="info-item" *ngIf="similarHouse.house_style">
+              <ion-icon name="business-outline"></ion-icon>
+              <span>{{ similarHouse.house_style }}</span>
+            </div>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </div>
+
+    <div class="question-section">
+      <h3>Is this the same house?</h3>
+      <p>Please confirm whether this is the same house you're trying to add or a different one.</p>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <div class="footer-buttons">
+    <ion-button 
+      expand="block" 
+      color="primary" 
+      (click)="selectExistingHome()"
+      class="action-button existing-home-btn">
+      <ion-icon name="checkmark-circle-outline" slot="start"></ion-icon>
+      Yes, this is the home
+    </ion-button>
+    
+    <ion-button 
+      expand="block" 
+      fill="outline" 
+      color="primary" 
+      (click)="selectNewHome()"
+      class="action-button new-home-btn">
+      <ion-icon name="add-circle-outline" slot="start"></ion-icon>
+      No, add a new home
+    </ion-button>
+  </div>
+</ion-footer>

@@ -1,0 +1,116 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-menu-button color="secondary"></ion-menu-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <!-- Show skeleton loader for initial load -->
+  <div *ngIf="isLoading && recentListing.length === 0">
+    <swiper-container
+      class="my-swiper ion-margin-top"
+      autoPlay="true"
+      speed="600"
+      pagination="true"
+      [breakpoints]="{
+        '320': {
+          slidesPerView: 1,
+          spaceBetween: 20
+        },
+        '480': {
+          slidesPerView: 1,
+          spaceBetween: 30
+        },
+        '768': {
+          slidesPerView: 2,
+          spaceBetween: 30
+        },
+        '1040': {
+          slidesPerView: 3,
+          spaceBetween: 40
+        }
+      }"
+    >
+      <swiper-slide *ngFor="let i of [1,2,3]">
+        <div class="slider-div" style="background: rgba(var(--ion-color-primary-rgb), 0.1);">
+          <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%;"></ion-skeleton-text>
+        </div>
+      </swiper-slide>
+    </swiper-container>
+    <ion-item lines="none" class="ion-text-center ion-margin-top">
+      <ion-label>
+        <h2><b class="h2">Latest</b></h2>
+      </ion-label>
+    </ion-item>
+    <app-card-skeleton></app-card-skeleton>
+  </div>
+
+  <!-- Actual content -->
+  <div *ngIf="!isLoading || recentListing.length > 0">
+    <swiper-container
+      class="my-swiper ion-margin-top"
+      autoPlay="true"
+      speed="600"
+      pagination="true"
+      [breakpoints]="{
+        '320': {
+          slidesPerView: 1,
+          spaceBetween: 20
+        },
+        '480': {
+          slidesPerView: 1,
+          spaceBetween: 30
+        },
+        '768': {
+          slidesPerView: 2,
+          spaceBetween: 30
+        },
+        '1040': {
+          slidesPerView: 3,
+          spaceBetween: 40
+        }
+      }"
+    >
+      <swiper-slide *ngFor="let item of homeBanner; let i = index">
+        <div
+          class="slider-div"
+          [ngStyle]="{ 'background-image': getBackgroundImage(item.image_url) }"
+        >
+          <div class="slider-div-content">
+            <ion-label color="light">
+              <h1>{{ item.title }}</h1>
+              <p>{{ item.description }}</p>
+            </ion-label>
+          </div>
+        </div>
+      </swiper-slide>
+    </swiper-container>
+    <ion-item lines="none" class="ion-text-center ion-margin-top">
+      <ion-label>
+        <h2><b class="h2">Latest</b></h2>
+      </ion-label>
+    </ion-item>
+    <ion-grid>
+      <ion-row>
+        <ion-col
+          size="12"
+          sizeMd="6"
+          sizeLg="4"
+          sizeXl="4"
+          *ngFor="let listing of recentListing; let i = index"
+        >
+          <app-card [listing]="listing"></app-card>
+        </ion-col>
+      </ion-row>
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">
+        <ion-infinite-scroll-content
+          class="custom-infinite-scroll-content"
+          loadingSpinner="bubbles"
+          loadingText="Loading more data..."
+        >
+        </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+    </ion-grid>
+  </div>
+</ion-content>

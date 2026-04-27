@@ -1,0 +1,32 @@
+<ion-header  mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+     <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary"> Photos & Stories</ion-title>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!isFiltered" (click)="filterPhotoAndStories()">
+        <ion-icon name="filter-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="isFiltered" (click)="clearFilter()">
+        <ion-icon name="close-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12" sizeMd="6" sizeLg="4" sizeXl="4" *ngFor="let photoAndStory of photosAndStories; let i = index;">
+        <app-photocomponent [photoAndStories]="photoAndStory"></app-photocomponent>
+      </ion-col>
+    </ion-row>
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ion-grid>
+  
+</ion-content>

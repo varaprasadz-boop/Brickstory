@@ -1,0 +1,51 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary"> People </ion-title>
+    <ion-buttons slot="end">
+      <ion-button *ngIf="!isFilter" (click)="filterPhotoAndshoties()">
+        <ion-icon name="filter-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="isFilter" (click)="clearFilter()">
+        <ion-icon name="close-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-item
+    lines="none"
+    *ngFor="let people of people; let i = index"
+    button="true"
+    detail="true"
+    (click)="homeDetails(people.master_story_id, people.id)"
+  >
+    <ion-avatar 
+      slot="start" 
+      (click)="goToPeopleImage(people.person_photo, $event)"
+    >
+      <img
+        alt="Silhouette of mountains"
+        [src]="people.person_photo"
+        onerror="this.src='../../../../../assets/img/story.png'"
+      />
+    </ion-avatar>
+    <ion-label>
+      <h3>{{ people.frist_name }} {{ people.last_name }}</h3>
+      <ion-text color="primary">
+        <p>{{ people.born_date | date : 'MMMM d, yyyy' }}</p>
+      </ion-text>
+    </ion-label>
+  </ion-item>
+  
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMorePeople($event)">
+      <ion-infinite-scroll-content class="custom-infinite-scroll-content" loadingSpinner="bubbles"
+        loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ion-list>
+  
+</ion-content>

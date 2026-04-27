@@ -1,0 +1,52 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary"> My People </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <div
+    *ngIf="people.length === 0; else peopleFound"
+    class="ion-text-center"
+    style="
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    "
+  >
+    <img src="assets/svg/nodata.svg" alt="No data" class="no-data-image" />
+    <h2>No People Added</h2>
+    <p>You have not added any people yet.</p>
+  </div>
+  <ng-template #peopleFound>
+    <ion-list>
+      <ion-item
+        lines="none"
+        *ngFor="let item of people"
+        button="true"
+        detail="true"
+        (click)="updatePeople(item)"
+      >
+        <ion-avatar slot="start">
+          <img
+            alt="Silhouette of mountains"
+            [src]="item.person_photo"
+            onerror="this.src='../../../../../assets/img/story.png'"
+          />
+        </ion-avatar>
+        <ion-label>
+          <h3>
+            {{ item.frist_name | titlecase }} {{ item.last_name | titlecase }}
+          </h3>
+          <ion-text color="primary">
+            <p>{{ item.born_date | date : "MMMM d, yyyy" }}</p>
+          </ion-text>
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </ng-template>
+</ion-content>

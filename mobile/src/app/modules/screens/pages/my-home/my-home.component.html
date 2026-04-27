@@ -1,0 +1,55 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary"> My Homes </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div
+    *ngIf="myHome.length === 0 && !isLoading"
+    class="ion-text-center"
+    style="
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    "
+  >
+    <img src="assets/svg/nodata.svg" alt="No data" class="no-data-image" />
+    <h2>No Homes Added</h2>
+    <p>You have not added any homes yet. Click the button below to add one.</p>
+  </div>
+  
+  <!-- Show skeleton loader when loading -->
+  <app-card-skeleton *ngIf="isLoading && myHome.length === 0"></app-card-skeleton>
+  
+  <!-- Show actual homes -->
+  <ng-container *ngIf="myHome.length > 0">
+    <ion-grid>
+      <ion-row>
+        <ion-col
+          size="12"
+          sizeMd="6"
+          sizeLg="4"
+          sizeXl="4"
+          *ngFor="let item of myHome; let i = index"
+        >
+          <app-card
+            [listing]="item"
+            (clicked)="getMyHomes($event)"
+            [type]="'my-home'"
+          ></app-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-container>
+
+  <ion-fab horizontal="end" vertical="bottom" slot="fixed">
+    <ion-fab-button mode="ios" (click)="addHome()">
+      <ion-icon src="assets/svg/noun-add-home.svg"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "316227345014",
+    "project_id": "brickstory-715a2",
+    "storage_bucket": "brickstory-715a2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:316227345014:android:3acfbd766b6e44ac41dd57",
+        "android_client_info": {
+          "package_name": "com.brickstory.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7sJ0RLqZYiBROLer0kjrdkK__mliNRy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

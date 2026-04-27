@@ -1,0 +1,441 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="login">Home Details</ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        fill="outline"
+        *ngIf="listing.home.user_id == isLogin"
+        (click)="editHome()"
+      >
+        Edit
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content #ionContent id="ionContent" [forceOverscroll]="false">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <div class="image-section">
+          <img
+            alt="Silhouette of mountains"
+            [src]="listing.home.home_profile_photo"
+            onerror="this.src='assets/img/story.png'"
+            class="img"
+          />
+          <ion-button
+            class="expand-button"
+            (click)="goToStoryImage(listing.home.home_profile_photo, $event)"
+          >
+            <ion-icon slot="icon-only" name="expand"></ion-icon>
+          </ion-button>
+        </div>
+
+        <ion-list mode="ios">
+          <ion-item
+            color="primary"
+            id="address"
+            lines="none"
+            (click)="openMap($event, listing)"
+          >
+            <ion-icon
+              aria-hidden="true"
+              slot="start"
+              name="location"
+            ></ion-icon>
+            <ion-label>
+              {{ listing.home.address1 | titlecase }}<br />
+              {{ listing.home.city | titlecase }}, {{ listing.home.state }}
+              {{ listing.home.zip }}
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+      <ion-segment
+        value="details"
+        [(ngModel)]="selectedSegment"
+        style="overflow-x: auto"
+        mode="md"
+      >
+        <ion-segment-button
+          value="details"
+          style="width: 100px; margin-left: 50px"
+        >
+          Details
+        </ion-segment-button>
+        <ion-segment-button value="stories" style="width: 170px">
+          Photos & Stories
+        </ion-segment-button>
+        <ion-segment-button value="people" style="width: 100px">
+          People
+        </ion-segment-button>
+        <ion-segment-button value="timeline" style="width: 100px">
+          Timeline
+        </ion-segment-button>
+      </ion-segment>
+      <div [ngSwitch]="selectedSegment" style="width: 100%">
+        <ion-col *ngSwitchCase="'details'" size="12">
+          <ion-card>
+            <ion-card-header class="ion-text-center">
+              <ion-card-title>Home Details</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+              <ion-list mode="ios">
+                <!-- <ion-item *ngIf="listing.home.address1">
+                  <ion-label><strong>Address:</strong></ion-label>
+                </ion-item>
+                <ion-item *ngIf="listing.home.address1">
+                  <ion-label class="ion-text-end">
+                    <strong
+                      >{{ listing.home.address1 | titlecase }},
+                      {{ listing.home.address2 | titlecase }}
+                      {{ listing.home.city | titlecase }},
+                      {{ this.states | titlecase }}
+                      {{ listing.home.zip | titlecase }}
+                    </strong>
+                  </ion-label>
+                </ion-item> -->
+                <ion-item>
+                  <ion-label><strong>Year Built:</strong></ion-label>
+                  <ion-label slot="end">
+                    <strong>{{ listing.home.year_built }}</strong>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>House Style:</strong></ion-label>
+                  <ion-label slot="end">
+                    <strong>{{ listing.home.house_style_value }}</strong>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>Original Owner:</strong></ion-label>
+                  <ion-label slot="end">
+                    <strong>{{ listing.home.owner_name }}</strong>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>Architect:</strong></ion-label>
+                  <ion-label slot="end">
+                    <strong>{{ listing.home.architech | titlecase }}</strong>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>Square Feet:</strong></ion-label>
+                  <ion-label slot="end">
+                    <strong>{{ listing.home.square_feet }}</strong>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>Bedrooms</strong></ion-label>
+                  <ion-label slot="end">
+                    <strong>{{ listing.home.bedroom_id }}</strong>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>Building Material:</strong></ion-label>
+                  <ion-label slot="end">
+                    <strong>{{ listing.home.material_value }}</strong>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>Foundation Type:</strong></ion-label>
+                  <ion-label slot="end">
+                    <strong>{{ listing.home.foundation_value }}</strong>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>Roof Type:</strong></ion-label>
+                  <ion-label slot="end">
+                    <strong>{{ listing.home.roof_value }}</strong>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>Acres:</strong></ion-label>
+                  <ion-label slot="end">
+                    <strong>{{ listing.home.Acres }}</strong>
+                  </ion-label>
+                </ion-item>
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+        <ion-col *ngSwitchCase="'stories'" size="12">
+          <ion-list>
+            <div
+              class="ion-text-center"
+              lines="none"
+              *ngIf="listing.sub_stories.length === 0"
+            >
+              <h3 class="text-stories">No Stories Available</h3>
+            </div>
+            <ion-item
+              class="ion-item"
+              lines="none"
+              *ngFor="let item of listing.sub_stories"
+              button="true"
+              detail="true"
+              (click)="gotoStoriesDetail(item)"
+            >
+              <ion-avatar slot="start">
+                <img
+                  alt="Silhouette of mountains"
+                  [src]="item.story_photo"
+                  onerror="this.src='../../../../../assets/img/story.png'"
+                />
+              </ion-avatar>
+              <ion-label>
+                <h3>{{ item.room_value }}</h3>
+                <ion-text color="primary">
+                  <p>{{ item.approximate_date | date : "MMMM d, yyyy" }}</p>
+                </ion-text>
+              </ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-col>
+        <ion-col *ngSwitchCase="'people'" size="12">
+          <div
+            class="ion-text-center"
+            lines="none"
+            *ngIf="listing.sub_persons.length === 0"
+          >
+            <h3 class="text-stories">No People Available</h3>
+          </div>
+          <ion-accordion-group
+            class="ion-no-margin"
+            *ngFor="let item of listing.sub_persons"
+            #accordionGroup
+            id="accordionGroup"
+          >
+            <ion-accordion [value]="item.id">
+              <ion-item class="ion-item" slot="header">
+                <ion-avatar (click)="goToPeopleImageProfile(item, $event)">
+                  <img
+                    [src]="item.person_photo"
+                    onerror="this.src='../../../../../assets/img/story.png'"
+                    alt="Silhouette of mountains"
+                  />
+                </ion-avatar>
+                <ion-label class="ion-padding-start">
+                  <h3>
+                    {{ item.frist_name | titlecase }}
+                    {{ item.last_name | titlecase }}
+                  </h3>
+                  <ion-text color="primary">
+                    <p>{{ item.born_date | date : "MMMM d, yyyy" }}</p>
+                  </ion-text>
+                </ion-label>
+              </ion-item>
+              <div slot="content">
+                <ion-item>
+                  <ion-label><strong>Relationship:</strong></ion-label>
+                  <ion-label slot="end">
+                    <strong>{{ item.relationship_value }}</strong>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>From:</strong></ion-label>
+                  <ion-label slot="end">
+                    <strong>{{
+                      item.from_date | date : "MMMM d, yyyy"
+                    }}</strong>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>To:</strong></ion-label>
+                  <ion-label slot="end">
+                    <strong>{{ item.to_date | date : "MMMM d, yyyy" }}</strong>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>Born:</strong></ion-label>
+                  <ion-label slot="end">
+                    <strong>{{
+                      item.born_date | date : "MMMM d, yyyy"
+                    }}</strong>
+                  </ion-label>
+                </ion-item>
+                <ion-item>
+                  <ion-label><strong>Death:</strong></ion-label>
+                  <ion-label slot="end">
+                    <strong>{{
+                      item.died_date | date : "MMMM d, yyyy"
+                    }}</strong>
+                  </ion-label>
+                </ion-item>
+              </div>
+            </ion-accordion>
+          </ion-accordion-group>
+        </ion-col>
+        <ion-col *ngSwitchCase="'timeline'" size="12">
+          <!-- Show skeleton for timeline when loading -->
+          <div *ngIf="isTimelineLoading">
+            <div class="timeline">
+              <div class="container right">
+                <div class="content">
+                  <ion-skeleton-text [animated]="true" style="width: 60px; height: 20px; margin-bottom: 8px;"></ion-skeleton-text>
+                  <ion-skeleton-text [animated]="true" style="width: 80%; height: 20px; margin-bottom: 12px;"></ion-skeleton-text>
+                </div>
+              </div>
+            </div>
+            <div class="timeline timelines">
+              <div class="container right" *ngFor="let i of [1,2,3,4]">
+                <div class="content">
+                  <ion-skeleton-text [animated]="true" style="width: 80px; height: 18px; margin-bottom: 8px;"></ion-skeleton-text>
+                  <ion-skeleton-text [animated]="true" style="width: 70%; height: 18px; margin-bottom: 8px;"></ion-skeleton-text>
+                  <ion-skeleton-text [animated]="true" style="width: 90%; height: 16px; margin-bottom: 12px;"></ion-skeleton-text>
+                  <div style="width: 315px; height: 200px; border-radius: 15px; overflow: hidden;">
+                    <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%; margin: 0;"></ion-skeleton-text>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Actual timeline content -->
+          <div *ngIf="!isTimelineLoading">
+            <div class="timeline">
+              <div class="container right">
+                <div class="content">
+                  <ion-list class="ion-list2" lines="none">{{
+                    listing.home.year_built
+                  }}</ion-list>
+                  <ion-label
+                    color="dark"
+                    class="ion-margin-top ion-margin-bottom"
+                  >
+                    <h2>{{ listing.home.address1 }} was built</h2>
+                  </ion-label>
+                  <div style="width: 315px"></div>
+                </div>
+              </div>
+            </div>
+            <div class="timeline timelines">
+            <div
+              #timelineElement
+              class="container right"
+              *ngFor="let item of myTimeLine"
+              [id]="item.id"
+            >
+              <div class="content">
+                <ion-list
+                  *ngIf="item.indicator"
+                  class="ion-list2"
+                  lines="none"
+                  >{{ item.from_date | date : "MMM d, yyyy" }}</ion-list
+                >
+                <ion-list
+                  lines="none"
+                  [class]="!item.indicator ? 'ion-list2' : ''"
+                  >{{
+                    item.indicator
+                      ? (item.first_name | titlecase) +
+                        " " +
+                        (item.last_name | titlecase)
+                      : (item.from_date | date : "MMM d, yyyy")
+                  }}</ion-list
+                >
+                <ion-label
+                  *ngIf="item.indicator"
+                  color="dark"
+                  class="ion-margin-top ion-margin-bottom"
+                >
+                  <h2>
+                    {{ item.living == "0" ? item.indicator : "Living Here" }}
+                  </h2>
+                </ion-label>
+                <div style="width: 315px"></div>
+                <!-- <div style="width: 310px"></div> -->
+                <img
+                  (click)="goToPeopleImage(item, $event)"
+                  class="ion-margin-top story-photo"
+                  [src]="item.indicator ? item.person_photo : item.story_photo"
+                  onerror="this.onerror=null; this.src='assets/img/story.png'"
+                  alt="Story Photo"
+                  style="border-radius: 15px"
+                />
+                <ion-button
+                  class="ion-margin-bottom ion-margin-top"
+                  *ngIf="item.user_id == isLogin"
+                  (click)="gotoStoriesDetail(item)"
+                >
+                  <ion-icon name="create-outline"></ion-icon>
+                  <ion-label>Edit</ion-label>
+                </ion-button>
+                <ng-container *ngIf="!item.indicator">
+                  <ion-list id="timeline" class="container-list">
+                    <ion-item lines="none">
+                      <ion-label><strong>Setting:</strong></ion-label>
+                      <ion-label slot="end">
+                        <strong>{{ item.setting }}</strong>
+                      </ion-label>
+                    </ion-item>
+                    <ion-item lines="none">
+                      <ion-label><strong>Season:</strong></ion-label>
+                      <ion-label slot="end">
+                        <strong>{{ item.season }}</strong>
+                      </ion-label>
+                    </ion-item>
+                    <ion-item lines="none">
+                      <ion-label><strong>Event:</strong></ion-label>
+                      <ion-label slot="end">
+                        <strong>{{ item.event }}</strong>
+                      </ion-label>
+                    </ion-item>
+                    <ion-item lines="none">
+                      <ion-label><strong>Side Of House:</strong></ion-label>
+                      <ion-label slot="end">
+                        <strong>{{ item.side_of_house }}</strong>
+                      </ion-label>
+                    </ion-item>
+                    <ion-item lines="none">
+                      <ion-label><strong>Room:</strong></ion-label>
+                      <ion-label slot="end">
+                        <strong>{{ item.room }}</strong>
+                      </ion-label>
+                    </ion-item>
+                    <ion-item lines="none">
+                      <ion-label><strong>Description:</strong></ion-label>
+                    </ion-item>
+                    <ion-item lines="none">
+                      <ion-label>
+                        <strong>{{ item.description }}</strong>
+                      </ion-label>
+                    </ion-item>
+                  </ion-list>
+                </ng-container>
+              </div>
+              </div>
+            </div>
+          </div>
+        </ion-col>
+      </div>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-toolbar class="ion-footer ion-text-center">
+    <ion-buttons class="ion-justify-content-center">
+      <ion-button
+        color="primary"
+        fill="solid"
+        shape="round"
+        (click)="livedHere()"
+        >I Lived Here</ion-button
+      >
+      <ion-button fill="solid" color="primary" shape="round" (click)="people()"
+        >Add Person</ion-button
+      >
+      <ion-button
+        color="primary"
+        fill="solid"
+        shape="round"
+        (click)="addstory()"
+        >Add story</ion-button
+      >
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

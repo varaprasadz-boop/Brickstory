@@ -1,0 +1,41 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary"> My Photo & Stories </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div
+    *ngIf="photosAndStories.length === 0; else storiesFound"
+    class="ion-text-center"
+    style="
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    "
+  >
+    <img src="assets/svg/nodata.svg" alt="No data" class="no-data-image" />
+    <h2>No Stories Added</h2>
+  </div>
+  <ng-template #storiesFound>
+    <ion-grid>
+      <ion-row>
+        <ion-col
+          size="12"
+          sizeMd="6"
+          sizeLg="4"
+          sizeXl="4"
+          *ngFor="let photoAndStory of photosAndStories; let i = index"
+        >
+          <app-photocomponent
+            [photoAndStories]="photoAndStory"
+          ></app-photocomponent>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ng-template>
+</ion-content>

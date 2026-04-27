@@ -1,0 +1,84 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title color="secondary">Lived Here</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form #livedForm="ngForm" (ngSubmit)="submit()">
+    <ion-list lines="none" class="ion-no-margin">
+
+      <!-- From Date -->
+      <ion-label class="ion-padding-start">From Date<span>*</span></ion-label>
+      <ion-item
+        [ngClass]="{
+          'invalid-item': livedForm.submitted && !livedHere.from_date
+        }"
+      >
+        <input
+          type="date"
+          class="date-input"
+          name="fromDate"
+          [(ngModel)]="livedHere.from_date_raw"
+          required
+          (change)="onDateChange($event, 'from')"
+        />
+      </ion-item>
+      <div *ngIf="livedForm.submitted && !livedHere.from_date" class="error-message">
+        From Date is required.
+      </div>
+
+      <!-- To Date -->
+      <ng-container *ngIf="!livedHere.user_lived_here">
+        <ion-label class="ion-padding-start">To Date<span>*</span></ion-label>
+        <ion-item
+          [ngClass]="{
+            'invalid-item': livedForm.submitted && !livedHere.to_date
+          }"
+        >
+          <input
+            type="date"
+            class="date-input"
+            name="toDate"
+            [min]="livedHere.from_date_raw"
+            [(ngModel)]="livedHere.to_date_raw"
+            required
+            (change)="onDateChange($event, 'to')"
+          />
+        </ion-item>
+        <div *ngIf="livedForm.submitted && !livedHere.to_date" class="error-message">
+          To Date is required.
+        </div>
+      </ng-container>
+
+      <!-- Checkbox -->
+      <div class="livedHere">
+        <ion-checkbox
+          labelPlacement="end"
+          mode="md"
+          [(ngModel)]="livedHere.user_lived_here"
+          name="stillLive"
+          (ionChange)="onCheckboxChange()"
+        >
+          I Still Live here
+        </ion-checkbox>
+      </div>
+
+      <!-- Submit -->
+      <ion-button
+        mode="ios"
+        expand="block"
+        class="ion-button"
+        type="submit"
+      >
+        Submit
+      </ion-button>
+    </ion-list>
+  </form>
+</ion-content>

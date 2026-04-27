@@ -1,0 +1,74 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button fill="clear" (click)="dismiss()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>{{ 'Search or Drag Marker' }}</ion-title>
+  </ion-toolbar>
+
+  <ion-toolbar>
+    <ion-searchbar
+      color="light"
+      mode="md"
+      [(ngModel)]="autocomplete.query"
+      [showCancelButton]="true"
+      (ionInput)="updateSearch()"
+      (ionCancel)="remove()"
+      placeholder="{{ 'Search address...' }}"
+    >
+    </ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<!-- Autocomplete dropdown positioned outside header -->
+<div
+  class="autocomplete-container"
+  *ngIf="autocompleteItems.length > 0 || (autocomplete.query && autocomplete.query.length > 0)"
+>
+  <ion-list class="autocomplete-list" *ngIf="autocompleteItems.length > 0">
+    <ion-item
+      *ngFor="let item of autocompleteItems"
+      (click)="chooseItem(item)"
+      class="autocomplete-item"
+      button
+    >
+      <ion-icon
+        name="location-outline"
+        slot="start"
+        class="location-icon"
+      ></ion-icon>
+      <ion-label class="autocomplete-text">{{item}}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <!-- No results state -->
+  <div
+    class="no-results"
+    *ngIf="autocomplete.query && autocomplete.query.length > 2 && autocompleteItems.length === 0"
+  >
+    <ion-item class="no-results-item">
+      <ion-icon
+        name="search-outline"
+        slot="start"
+        class="no-results-icon"
+      ></ion-icon>
+      <ion-label class="no-results-text"
+        >No results found for "{{autocomplete.query}}"</ion-label
+      >
+    </ion-item>
+  </div>
+</div>
+
+<ion-content class="bg_white" [fullscreen]="true">
+  <div class="map center_img" #map></div>
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="ion-padding">
+    <ion-button mode="ios" expand="block" (click)="select()"
+      >{{'Done'}}</ion-button
+    >
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,178 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start" (click)="cancel()">
+      <ion-button>cancel</ion-button>
+    </ion-buttons>
+    <ion-title color="primary"> Update People </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-list lines="none">
+    <ion-label>First Name</ion-label>
+    <ion-item>
+      <ion-input
+        type="text"
+        placeholder="First Name"
+        [(ngModel)]="updatePeople.first_name"
+      ></ion-input>
+    </ion-item>
+    <ion-label>Last Name</ion-label>
+    <ion-item>
+      <ion-input
+        type="text"
+        placeholder="Last Name"
+        [(ngModel)]="updatePeople.last_name"
+      ></ion-input>
+    </ion-item>
+    <ion-label>Relationship</ion-label>
+    <ion-item>
+      <ion-select
+        placeholder="Relationship"
+        interface="action-sheet"
+        [(ngModel)]="updatePeople.relation_id"
+        mode="ios"
+      >
+        <ion-select-option
+          *ngFor="let item of relations | keyvalue"
+          [value]="item.key"
+          >{{ item.value }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-label>From Date</ion-label>
+    <ion-item id="click-trigger" button="true">
+      <ion-label>
+        {{ updatePeople.from_date }}
+      </ion-label>
+    </ion-item>
+    <ion-popover
+      trigger="click-trigger"
+      triggerAction="click"
+      side="bottom"
+      alignment="center"
+    >
+      <ng-template>
+        <ion-content>
+          <ion-datetime
+            presentation="date"
+            (ionChange)="selectedDate($event, 'from')"
+          ></ion-datetime>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+    <ion-label>To Date</ion-label>
+    <ion-item id="bottom-center" button="true">
+      <ion-label>
+        {{ updatePeople.to_date }}
+      </ion-label>
+    </ion-item>
+    <ion-popover
+      trigger="bottom-center"
+      triggerAction="click"
+      side="bottom"
+      alignment="center"
+    >
+      <ng-template>
+        <ion-content>
+          <ion-datetime
+            [min]="minDates.from_date"
+            presentation="date"
+            (ionChange)="selectedDate($event, 'to')"
+          >
+          </ion-datetime>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+    <ion-label>Born Date</ion-label>
+    <ion-item id="bottom-center1" button="true">
+      <ion-label>
+        {{ updatePeople.born_date }}
+      </ion-label>
+    </ion-item>
+    <ion-popover
+      trigger="bottom-center1"
+      triggerAction="click"
+      side="bottom"
+      alignment="center"
+    >
+      <ng-template>
+        <ion-content>
+          <ion-datetime
+            presentation="date"
+            (ionChange)="selectedDate($event, 'born')"
+          >
+          </ion-datetime>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+    <ion-label>Death Date</ion-label>
+    <ion-item id="bottom-center2" button="true">
+      <ion-label>
+        {{ updatePeople.died_date }}
+      </ion-label>
+    </ion-item>
+    <ion-popover
+      trigger="bottom-center2"
+      triggerAction="click"
+      side="bottom"
+      alignment="center"
+    >
+      <ng-template>
+        <ion-content>
+          <ion-datetime
+            [min]="minDates.born_date"
+            presentation="date"
+            (ionChange)="selectedDate($event, 'died')"
+          >
+          </ion-datetime>
+        </ion-content>
+      </ng-template>
+    </ion-popover>
+
+    <ion-item button="true" (click)="takePictureFromCamera()">
+      <ion-text>
+        <p style="color: #656565">Choose Image</p>
+      </ion-text>
+    </ion-item>
+    <ion-item
+      *ngIf="this.updatePeople.image != ''"
+      style="--background: none; margin-top: 20px"
+    >
+      <div class="choosed-img" id="imagePreview">
+        <ion-icon
+          color="primary"
+          (click)="clearImage()"
+          name="close-circle"
+        ></ion-icon>
+        <ion-avatar>
+          <img
+            [src]="this.updatePeople.image"
+            onerror="this.src='../../../../../assets/img/story.png'"
+          />
+        </ion-avatar>
+      </div>
+    </ion-item>
+    <div *ngIf="this.updatePeople.image !== ''">
+      <ion-label>Image Source (Optional)</ion-label>
+      <ion-item>
+        <ion-input
+          type="text"
+          placeholder="Image Source"
+          [(ngModel)]="updatePeople.image_source"
+        ></ion-input>
+      </ion-item>
+    </div>
+    <ion-label
+      ><ion-checkbox [(ngModel)]="updatePeople.living" labelPlacement="end"
+        >Still Living</ion-checkbox
+      ></ion-label
+    >
+  </ion-list>
+  <ion-button
+    mode="ios"
+    expand="block"
+    color="primary"
+    (click)="updatePeopleDetail()"
+    >Update People</ion-button
+  >
+</ion-content>

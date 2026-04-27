@@ -1,0 +1,22 @@
+<ion-menu (ionWillOpen)="menuEvent()" contentId="main-content">
+  <ion-header class="ion-no-border">
+    <ion-toolbar mode="ios">
+      <ion-buttons slot="end">
+        <ion-menu-button color="secondary" ></ion-menu-button>
+      </ion-buttons>
+      <ion-title>
+        Menu
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="ion-padding" mode="ios">
+    <ion-list class="main-list">
+      <ion-button shape="round" fill="solid" expand="block" *ngFor="let item of menu"
+        class="ion-text-start left-align-text" (click)="goTo(item.path)">
+        <ion-label>{{ item.name }}</ion-label>
+      </ion-button>
+      <ion-button shape="round" fill="solid" expand="block" class="ion-text-start left-align-text"
+        (click)="isAuthenticated()"><ion-label>{{isLoggedIn ? 'Logout' : 'Login'}}</ion-label></ion-button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
