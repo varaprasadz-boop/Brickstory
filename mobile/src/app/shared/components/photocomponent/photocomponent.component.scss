@@ -1,0 +1,97 @@
+ion-card {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  height: 250px;
+  max-height: 300px;
+  max-width: 400px;
+  border-radius: 10px;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 5px;
+
+  .top-label {
+    background: #516466;
+    width: 80px;
+    margin-top: 10px;
+
+    h3 {
+      padding-left: 10px;
+      margin: 0px;
+    }
+  }
+
+  .footer-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .footer-text {
+      background: #516466;
+      width: 250px;
+      max-width: 200px;
+      height: 40px;
+      margin: 0px 0px 10px 0px;
+
+      p {
+        padding: 2px 0px 0px 10px;
+        margin: 0px;
+      }
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+
+      ion-buttons {
+        display: flex;
+        flex-direction: column;
+        bottom: 0px;
+        position: fixed;
+        right: 0px;
+
+        ion-button {
+          margin-bottom: 10px;
+
+          &[size="small"] {
+            height: 26px !important;
+            width: 32px;
+            border-radius: 100%;
+            margin-right: -25px;
+
+            ion-icon {
+              font-size: 14px;
+            }
+          }
+
+          &[expand="block"] {
+            font-size: 10px;
+            width: 80px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.ribbon {
+  height: 40px;
+  padding-top: 7px;
+  font-size: 16px;
+  color: #fff;
+  width: 70%;
+  --f: .5em;
+  --r: .8em;
+  position: absolute;
+  bottom: 7px;
+  left: calc(-1*var(--f));
+  padding-left: 10px;
+  background: var(--ion-color-primary);
+  border-top: var(--f) solid #0005;
+  border-right: var(--r) solid #0000;
+  clip-path: polygon(calc(100% - var(--r)) 100%, 0 100%, 0 var(--f), var(--f) 0,
+      var(--f) var(--f), calc(100% - var(--r)) var(--f),
+      100% calc(50% + var(--f)/2));
+}

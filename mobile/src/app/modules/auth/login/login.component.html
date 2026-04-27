@@ -1,0 +1,75 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button color="secondary"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="login">Login</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding ion-text-center">
+  <form #loginForm="ngForm" (ngSubmit)="login()">
+    <ion-list lines="none">
+      <ion-item>
+        <ion-input
+          [(ngModel)]="user.email"
+          name="email"
+          type="email"
+          placeholder="Email"
+          required
+          email
+        >
+      </ion-input>
+      </ion-item>
+      <div
+        *ngIf="
+          loginForm.controls['email']?.invalid &&
+          loginForm.controls['email']?.touched
+        "
+        class="error-message"
+      >
+        <p *ngIf="loginForm.controls['email']?.errors?.['required']">
+          Email is required.
+        </p>
+        <p *ngIf="loginForm.controls['email']?.errors?.['email']">
+          Invalid email format.
+        </p>
+      </div>
+      <ion-item>
+        <ion-input
+          [(ngModel)]="user.password"
+          name="password"
+          type="password"
+          placeholder="Password"
+          required
+          minlength="6"
+        >
+        <ion-input-password-toggle slot="end"></ion-input-password-toggle>
+      </ion-input>
+      </ion-item>
+      <div
+        *ngIf="
+          loginForm.controls['password']?.invalid &&
+          loginForm.controls['password']?.touched
+        "
+        class="error-message"
+      >
+        <p *ngIf="loginForm.controls['password']?.errors?.['required']">
+          Password is required.
+        </p>
+        <p *ngIf="loginForm.controls['password']?.errors?.['minlength']">
+          Password must be at least 6 characters long.
+        </p>
+      </div>
+    </ion-list>
+    <ion-buttons class="ion-padding">
+      <ion-button
+        size="large"
+        color="primary"
+        fill="solid"
+        shape="round"
+        type="submit"
+        [disabled]="!user.email||!user.password">Login</ion-button>
+      <ion-button mode="ios" color="primary" routerLink="/auth/forget-password">Forgot your password?</ion-button>
+    </ion-buttons>
+  </form>
+</ion-content>

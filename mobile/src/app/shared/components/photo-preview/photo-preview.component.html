@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-toolbar color="dark" lines="none">
+    <ion-buttons slot="end" (click)="cancel()">
+    <ion-button>
+        <ion-icon slot="icon-only" name="close-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding" color="dark">
+  <div class="container">
+    <ion-img
+      [src]="safePhoto"
+      (ionError)="handleImageError()"
+      style="max-width: 100%; max-height: 100%;"
+      *ngIf="!hideImage"
+    ></ion-img>
+  </div>
+</ion-content>
+

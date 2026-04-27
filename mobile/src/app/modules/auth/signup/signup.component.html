@@ -1,0 +1,69 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button color="secondary"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary" class="login">Signup</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding ion-text-center">
+  <ion-text color="primary" class="ion-margin">
+    <p>Submit the below form to get register.</p>
+  </ion-text>
+  <form #signupForm="ngForm" (ngSubmit)="signup(signupForm)">
+    <ion-list lines="none">
+      <ion-item>
+        <ion-input [(ngModel)]="user.firstname" name="firstName" type="text" placeholder="First Name"
+          required></ion-input>
+      </ion-item>
+      <div *ngIf="signupForm.controls['firstName']?.invalid && signupForm.controls['firstName']?.touched"
+        class="error-message">
+        <p *ngIf="signupForm.controls['firstName']?.errors?.['required']">First Name is required.</p>
+      </div>
+      <ion-item>
+        <ion-input [(ngModel)]="user.lastname" name="lastName" type="text" placeholder="Last Name" required></ion-input>
+      </ion-item>
+      <div *ngIf="signupForm.controls['lastName']?.invalid && signupForm.controls['lastName']?.touched"
+        class="error-message">
+        <p *ngIf="signupForm.controls['lastName']?.errors?.['required']">Last Name is required.</p>
+      </div>
+      <ion-item>
+        <ion-input [(ngModel)]="user.email" name="email" type="email" placeholder="Email Address" required
+          email></ion-input>
+      </ion-item>
+      <div *ngIf="signupForm.controls['email']?.invalid && signupForm.controls['email']?.touched" class="error-message">
+        <p *ngIf="signupForm.controls['email']?.errors?.['required']">Email is required.</p>
+        <p *ngIf="signupForm.controls['email']?.errors?.['email']">Invalid email format.</p>
+      </div>
+      <ion-item>
+        <ion-input [(ngModel)]="user.password" name="password" type="password" placeholder="Password" required
+          minlength="6"> <ion-input-password-toggle slot="end"></ion-input-password-toggle></ion-input>
+      </ion-item>
+      <div *ngIf="signupForm.controls['password']?.invalid && signupForm.controls['password']?.touched"
+        class="error-message">
+        <p *ngIf="signupForm.controls['password']?.errors?.['required']">Password is required.</p>
+        <p *ngIf="signupForm.controls['password']?.errors?.['minlength']">Password must be at least 6 characters long.
+        </p>
+      </div>
+      <ion-item>
+        <ion-input [(ngModel)]="user.confirm_password" name="confirmPassword" type="password"
+          placeholder="Confirm Password" required> <ion-input-password-toggle
+            slot="end"></ion-input-password-toggle></ion-input>
+      </ion-item>
+      <div *ngIf="signupForm.controls['confirmPassword']?.invalid && signupForm.controls['confirmPassword']?.touched"
+        class="error-message">
+        <p *ngIf="signupForm.controls['confirmPassword']?.errors?.['required']">Confirm Password is required.</p>
+        <p *ngIf="signupForm.controls['confirmPassword']?.errors?.['compareWith']">Passwords do not match.</p>
+      </div>
+      <ion-item lines="none" class="checkbox">
+        <ion-checkbox slot="start" justify="start" labelPlacement="end">I agree to</ion-checkbox> <a (click)="termsConditions()">terms and
+          conditions</a>.
+      </ion-item>
+    </ion-list>
+    <ion-buttons class="ion-padding">
+      <ion-button color="primary" fill="solid" shape="round" type="submit"
+        [disabled]="!user.firstname||!user.lastname||!user.email||!user.password||!user.confirm_password">Register</ion-button>
+      <ion-button fill="outline" color="primary" shape="round" routerLink="/">Cancel</ion-button>
+    </ion-buttons>
+  </form>
+</ion-content>

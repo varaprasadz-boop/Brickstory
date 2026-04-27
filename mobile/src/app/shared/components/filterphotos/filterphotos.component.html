@@ -1,0 +1,56 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title>
+      Filter
+    </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="confirm()" [strong]="true">Confirm</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-list>
+    <ion-label>Setting</ion-label>
+    <ion-item lines="none">
+      <ion-select interface="action-sheet" mode="ios" placeholder="Setting" [(ngModel)]="filterArray.setting"
+        (ionChange)="onSettingChange($event.detail.value)">
+        <ion-select-option *ngFor="let item of settings | keyvalue"
+          [value]="item.key">{{item.value}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-label>Season</ion-label>
+    <ion-item lines="none">
+      <ion-select interface="action-sheet" mode="ios" placeholder="Season" [(ngModel)]="filterArray.season">
+        <ion-select-option *ngFor="let item of season| keyvalue" [value]="item.key">{{item.value}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-label>Events</ion-label>
+    <ion-item lines="none">
+      <ionic-selectable item-content placeholder="Events" [itemValueField]="'key'" [itemTextField]="'value'"
+        [items]="event | keyvalue" [canSearch]="true"
+        (onChange)="onSelectableChange($event.value.key, 'events')">
+      </ionic-selectable>
+    </ion-item>
+    <ion-label>Side</ion-label>
+    <ion-item lines="none">
+      <ion-select interface="action-sheet" mode="ios" placeholder="Side" [(ngModel)]="filterArray.houseSide">
+        <ion-select-option *ngFor="let item of sideOfHouse| keyvalue"
+          [value]="item.key">{{item.value}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ng-container *ngIf="showRoomSelect">
+      <ion-label>Room</ion-label>
+      <ion-item lines="none">
+        <ionic-selectable item-content placeholder="Room" [itemValueField]="'key'" [itemTextField]="'value'"
+          [items]="room | keyvalue" [canSearch]="true"
+          (onChange)="onSelectableChange($event.value.key, 'room')">
+        </ionic-selectable>
+      </ion-item>
+    </ng-container>
+    <ion-checkbox labelPlacement="end" [(ngModel)]="filterArray.nrhp">NRHP Property</ion-checkbox>
+  </ion-list>
+  <ion-button expand="block" mode="ios" (click)="confirm()"> Submit</ion-button>
+</ion-content>

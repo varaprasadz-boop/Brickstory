@@ -1,0 +1,60 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary"> My TimeLine </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div
+    *ngIf="myTimeLine.length === 0; else timelineFound"
+    class="ion-text-center"
+    style="
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    "
+  >
+    <img src="assets/svg/nodata.svg" alt="No data" class="no-data-image" />
+    <h2>No Timeline Available</h2>
+    <p>
+      Your timeline is currently empty. Start adding activities to see them
+      here.
+    </p>
+  </div>
+  <ng-template #timelineFound>
+    <div class="timeline">
+      <div class="container right" *ngFor="let item of myTimeLine">
+        <div class="content">
+          <ion-list lines="none">{{
+            item.from_date | date : "MMM d, yyyy"
+          }}</ion-list>
+          <ion-label color="dark" class="ion-margin-top ion-margin-bottom">
+            <h2>{{ item.action }}</h2>
+          </ion-label>
+          <ion-list
+            *ngIf="item.lived_here != '1' || item.lived_here != 1"
+            lines="none"
+            >{{ item.to_date | date : "MMM d, yyyy" }}</ion-list
+          >
+          <ion-label color="dark" class="ion-margin-top ion-margin-bottom">
+            <h2>{{ item.action_2 }}</h2>
+          </ion-label>
+          <img
+            class="ion-margin-top ion-margin-bottom story-photo"
+            [src]="item.home_profile_photo"
+            onerror="this.onerror=null; this.src='../../../../../assets/img/story.png'"
+            alt="Story Photo"
+          />
+          <p>
+            {{ item.address1 ? item.address1 + " ," : "" }}
+            {{ item.city ? item.city + " ," : "" }} {{ item.state }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</ion-content>

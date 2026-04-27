@@ -1,0 +1,181 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title class="login">Photo & Story</ion-title>
+    <ion-buttons
+      slot="end"
+      (click)="editPhotosAndStories(this.viewPhtotAndStories)"
+    >
+      <ion-button
+        fill="outline"
+        shape="round"
+        *ngIf="viewPhtotAndStories.user_id == this.isLogin"
+      >
+        Edit
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content id="ionContent" [forceOverscroll]="false">
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <div class="image-container">
+          <div *ngIf="isImageLoading" class="skeleton-container">
+            <ion-skeleton-text [animated]="true" style="width: 100%; height: 300px; border-radius: 8px;"></ion-skeleton-text>
+          </div>
+          <ion-img
+            *ngIf="!isImageLoading"
+            [src]="imageSrc"
+            (click)="previewImage(imageSrc, $event)"
+          ></ion-img>
+          <ion-button
+            *ngIf="!isImageLoading"
+            class="three-dots"
+            color="light"
+            fill="clear"
+            shape="round"
+            (click)="iAgreeToReport()"
+          >
+            <ion-icon slot="icon-only" name="ellipsis-vertical"></ion-icon>
+          </ion-button>
+        </div>
+        <ion-list-header>
+          <ion-label>
+            <h2 class="ion-text-wrap text-xl">Details</h2>
+          </ion-label>
+        </ion-list-header>
+        <ion-list
+          mode="ios"
+          *ngIf="viewPhtotAndStories.city && viewPhtotAndStories.state"
+        >
+          <ion-item color="primary" id="address" lines="none">
+            <ion-icon
+              aria-hidden="true"
+              slot="start"
+              name="location"
+              (click)="openMap($event, viewPhtotAndStories)"
+            ></ion-icon>
+            <ion-label>
+              {{ viewPhtotAndStories.city | titlecase }},
+              {{ this.states | titlecase }}
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+      <ion-col size="12">
+        <ion-card>
+          <ion-card-content>
+            <ion-list mode="ios">
+              <ion-item>
+                <ion-label><strong>Setting:</strong></ion-label>
+                <ion-label slot="end"
+                  ><strong>{{
+                    viewPhtotAndStories.setting_value | titlecase
+                  }}</strong></ion-label
+                >
+              </ion-item>
+              <ion-item>
+                <ion-label><strong>Season:</strong></ion-label>
+                <ion-label slot="end"
+                  ><strong>{{
+                    viewPhtotAndStories.season_value | titlecase
+                  }}</strong></ion-label
+                >
+              </ion-item>
+              <ion-item>
+                <ion-label><strong>Event:</strong></ion-label>
+                <ion-label slot="end"
+                  ><strong>{{
+                    viewPhtotAndStories.event_value | titlecase
+                  }}</strong></ion-label
+                >
+              </ion-item>
+              <!-- <ion-item *ngIf="viewPhtotAndStories.city">
+                <ion-label><strong>City:</strong></ion-label>
+                <ion-label slot="end"><strong>{{ viewPhtotAndStories.city|titlecase }}</strong></ion-label>
+              </ion-item> -->
+              <!-- <ion-item *ngIf="viewPhtotAndStories.state">
+                <ion-label><strong>State:</strong></ion-label>
+                <ion-label slot="end"><strong>{{ this.states|titlecase }}</strong></ion-label>
+              </ion-item> -->
+              <!-- <ion-item>
+                <ion-label><strong>Soul:</strong></ion-label>
+                <ion-label slot="end"><strong>{{ viewPhtotAndStories.soul|titlecase}}</strong></ion-label>
+              </ion-item> -->
+              <!-- <ion-item>
+                <ion-label><strong>Master Story ID:</strong></ion-label>
+                <ion-label slot="end"><strong>{{ viewPhtotAndStories.master_story_id|titlecase}}</strong></ion-label>
+              </ion-item> -->
+              <!-- <ion-item>
+                <ion-label><strong>Side Of House ID:</strong></ion-label>
+                <ion-label slot="end"><strong>{{ viewPhtotAndStories.side_of_house_id|titlecase }}</strong></ion-label>
+              </ion-item> -->
+              <ion-item>
+                <ion-label><strong>Side Of House:</strong></ion-label>
+                <ion-label slot="end"
+                  ><strong>{{
+                    viewPhtotAndStories.side_of_house_value | titlecase
+                  }}</strong></ion-label
+                >
+              </ion-item>
+              <ion-item>
+                <ion-label><strong>Room:</strong></ion-label>
+                <ion-label slot="end"
+                  ><strong>{{
+                    viewPhtotAndStories.room_value | titlecase
+                  }}</strong></ion-label
+                >
+              </ion-item>
+              <ion-item>
+                <ion-label><strong>Date:</strong></ion-label>
+                <ion-label slot="end"
+                  ><strong>{{
+                    viewPhtotAndStories.approximate_date | date : "MMM yyyy"
+                  }}</strong></ion-label
+                >
+              </ion-item>
+              <!-- <ion-item>
+                <ion-label><strong>Style:</strong></ion-label>
+                <ion-label slot="end"><strong>{{ viewPhtotAndStories.style|titlecase }}</strong></ion-label>
+              </ion-item> -->
+
+              <!-- <ion-item>
+                <ion-label><strong>Season ID:</strong></ion-label>
+                <ion-label slot="end"><strong>{{ viewPhtotAndStories.season_id|titlecase}}</strong></ion-label>
+              </ion-item> -->
+
+              <!-- <ion-item>
+                <ion-label><strong>Room ID:</strong></ion-label>
+                <ion-label slot="end"><strong>{{viewPhtotAndStories.room_id|titlecase}}</strong></ion-label>
+              </ion-item> -->
+              <ion-item>
+                <ion-label><strong>Description:</strong></ion-label>
+              </ion-item>
+
+              <ion-item>
+                <ion-label class="ion-text-wrap ion-text-justify">
+               {{
+                    viewPhtotAndStories.story_description | titlecase
+                  }}
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<!-- <ion-footer>
+  <ion-toolbar class="ion-footer ion-text-center">
+    <ion-buttons class="ion-justify-content-center">
+      <ion-button color="primary" fill="solid" shape="round" (click)="livedHere()">I Lived Here</ion-button>
+      <ion-button fill="solid" color="primary" shape="round" (click)="people()">Add Person</ion-button>
+      <ion-button color="primary" fill="solid" shape="round" (click)="addstory()">Add story</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer> -->

@@ -1,0 +1,55 @@
+<ion-card
+  [ngStyle]="{ '--background': backgroundStyle }"
+  (click)="homeDetails()"
+>
+  <div class="top-label">
+    <ion-text color="light">
+      <h3>
+        {{ listing.year_built }}
+      </h3>
+    </ion-text>
+  </div>
+  <div class="footer-container">
+    <div
+      style="padding-left: 20px; padding-bottom: 5px"
+      [ngClass]="{ ribbon2: listing.distance, ribbon: !listing.distance }"
+    >
+      {{ listing.city | titlecase }}, {{ listing.state | uppercase }}
+      <span *ngIf="listing.distance">
+        {{ listing.distance | number : "1.2-2" }} Mi</span
+      >
+    </div>
+    <div class="buttons">
+      <ion-buttons>
+        <ion-button
+          size="small"
+          shape="round"
+          color="light"
+          fill="solid"
+          (click)="openMap($event, listing)"
+        >
+          <ion-icon name="location"></ion-icon>
+        </ion-button>
+        <ion-button
+          shape="round"
+          expand="block"
+          color="light"
+          fill="solid"
+          (click)="homeDetails()"
+        >
+          View Details
+        </ion-button>
+        <ion-button
+          *ngIf="type == 'my-home'"
+          shape="round"
+          expand="block"
+          [color]="listing.monitor_home == '0' ? 'primary' : 'danger'"
+          fill="solid"
+          (click)="monitorMyHome($event)"
+        >
+          {{ listing.monitor_home == "0" ? "Monitor" : "Stop Monitoring" }}
+        </ion-button>
+      </ion-buttons>
+    </div>
+  </div>
+</ion-card>

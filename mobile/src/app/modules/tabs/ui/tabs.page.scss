@@ -1,0 +1,111 @@
+ion-tabs {
+  ion-fab {
+    margin-bottom: env(safe-area-inset-bottom);
+    ion-fab-button {
+    --box-shadow: none;
+	.button-inner {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		ion-icon {
+			font-size: 20px;
+		}
+		ion-label {
+      font-size: 10px;
+      margin-top: 4px;
+      color: var(--ion-color-secondary);
+    }
+	  }
+}
+}
+
+  ion-tab-bar {
+    --border: 0;
+    --background: transparent;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+
+    &:after {
+      content: " ";
+      width: 100%;
+      bottom: 0;
+      background: var(--ion-color-light);
+      height: env(safe-area-inset-bottom);
+      position: absolute;
+    }
+
+    ion-tab-button {
+      --background: var(--ion-color-primary);
+      --color: var(--ion-color-secondary-shade);
+      --color-focused: var(--ion-color-secondary);
+      --color-selected: var(--ion-color-secondary);
+    }
+
+    ion-tab-button.comments {
+      margin-right: 0;
+      border-top-right-radius: 18px !important;
+    }
+
+    ion-tab-button.notifs {
+      margin-left: 0;
+      border-top-left-radius: 18px !important;
+    }
+
+    svg {
+      width: 72px;
+      margin-top: 19px;
+      path {
+        fill: var(--ion-color-primary);
+      }
+    }
+  }
+
+  // Media queries for responsiveness
+  @media (max-width: 600px) {
+    ion-fab-button .fab-label {
+      font-size: 10px;
+    }
+
+    ion-tab-button ion-icon {
+      font-size: 18px;
+    }
+
+    ion-tab-button ion-label {
+      font-size: 10px;
+    }
+
+    svg {
+      width: 60px;
+      margin-top: 14px;
+    }
+  }
+
+  @media (min-width: 600px) {
+    ion-fab-button .fab-label {
+      font-size: 14px;
+    }
+
+    ion-tab-button ion-icon {
+      font-size: 22px;
+    }
+
+    ion-tab-button ion-label {
+      font-size: 12px;
+    }
+
+    svg {
+      width: 80px;
+      margin-top: 24px;
+    }
+  }
+}
+:host {
+  .button-inner {
+    display: flex;
+    flex-direction: column;
+  }
+}
