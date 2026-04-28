@@ -31,43 +31,124 @@ function json($status,$message,$data){
 	die(json_encode($info));
 }
 
- function saveBase64Image($base64String, $uploadPath) {
-	// Check if base64 string contains the correct data prefix
-	if (preg_match('/^data:image\/(\w+);base64,/', $base64String, $type)) {
-		// Remove the base64 prefix
-		$base64String = substr($base64String, strpos($base64String, ',') + 1);
-		// Get the file extension
-		$extension = strtolower($type[1]); // jpg, png, gif, etc.
+//  function saveBase64Image($base64String, $uploadPath) {
+// 	// Check if base64 string contains the correct data prefix
+// 	if (preg_match('/^data:image\/(\w+);base64,/', $base64String, $type)) {
+// 		// Remove the base64 prefix
+// 		$base64String = substr($base64String, strpos($base64String, ',') + 1);
+// 		// Get the file extension
+// 		$extension = strtolower($type[1]); // jpg, png, gif, etc.
 
-		// Decode the base64 string
-		$data = base64_decode($base64String);
+// 		// Decode the base64 string
+// 		$data = base64_decode($base64String);
 
-		// Check if decoding was successful
-		if ($data === false) {
-			throw new Exception('Base64 decode failed.');
-		}
+// 		// Check if decoding was successful
+// 		if ($data === false) {
+// 			throw new Exception('Base64 decode failed.');
+// 		}
 
-		// Generate a unique file name
-		$uniqueName = uniqid('img_', true) . '.' . $extension;
+// 		// Generate a unique file name
+// 		$uniqueName = uniqid('img_', true) . '.' . $extension;
 
-		// Ensure the upload path exists
-		if (!is_dir($uploadPath)) {
-			mkdir($uploadPath, 0755, true);
-		}
+// 		// Ensure the upload path exists
+// 		if (!is_dir($uploadPath)) {
+// 			mkdir($uploadPath, 0755, true);
+// 		}
 
-		// Create the full file path
-		$filePath = $uploadPath . '/' . $uniqueName;
-		// $filePath =  $uniqueName;
+// 		// Create the full file path
+// 		$filePath = $uploadPath . '/' . $uniqueName;
+// 		// $filePath =  $uniqueName;
 
-		// Save the binary data to a file
-		if (file_put_contents($filePath, $data) === false) {
-			throw new Exception('Failed to write image file.');
-		}
+// 		// Save the binary data to a file
+// 		if (file_put_contents($filePath, $data) === false) {
+// 			throw new Exception('Failed to write image file.');
+// 		}
 
-		return $uniqueName;
-	} else {
-		throw new Exception('Invalid data URL.');
+// 		return $uniqueName;
+// 	} else {
+// 		throw new Exception('Invalid data URL.');
+// 	}
+// }
+
+
+function validateReturnUrl($returnUrl){
+	$allowedDomains = [
+		'brickstory.com',
+		'app.brickstory.com'
+	];
+
+	$parsed = parse_url($returnUrl);
+	if (isset($parsed['host']) && !in_array($parsed['host'], $allowedDomains)) {
+		$returnUrl = '/dashboard';
 	}
+	return $returnUrl;
+}
+
+function saveBase64Image($base64String, $uploadPath, $maxSizeMB = 2)
+{
+    // Allowed MIME types
+    $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
+
+    // Validate base64 format
+    if (!preg_match('/^data:image\/(\w+);base64,/', $base64String, $matches)) {
+        throw new Exception('Invalid data URL.');
+    }
+
+    $extension = strtolower($matches[1]);
+
+    // Normalize jpg/jpeg
+    if ($extension === 'jpeg') {
+        $extension = 'jpg';
+    }
+
+    if (!in_array($extension, $allowedExtensions)) {
+        throw new Exception('Invalid image extension.');
+    }
+
+    // Remove prefix
+    $base64String = substr($base64String, strpos($base64String, ',') + 1);
+
+    // Decode
+    $data = base64_decode($base64String, true);
+    if ($data === false) {
+        throw new Exception('Base64 decode failed.');
+    }
+
+    // Validate file size
+    $maxBytes = $maxSizeMB * 1024 * 1024;
+    if (strlen($data) > $maxBytes) {
+        throw new Exception('File size exceeds limit of ' . $maxSizeMB . 'MB.');
+    }
+
+    // Validate MIME using finfo (IMPORTANT)
+    $finfo = new finfo(FILEINFO_MIME_TYPE);
+    $mimeType = $finfo->buffer($data);
+
+    if (!in_array($mimeType, $allowedMimeTypes)) {
+        throw new Exception('Invalid MIME type.');
+    }
+
+    // Extra validation: ensure it's actually an image
+    if (getimagesizefromstring($data) === false) {
+        throw new Exception('Invalid image content.');
+    }
+
+    // Ensure directory exists
+    if (!is_dir($uploadPath)) {
+        mkdir($uploadPath, 0755, true);
+    }
+
+    // Generate unique filename
+    $uniqueName = uniqid('img_', true) . '.' . $extension;
+    $filePath = rtrim($uploadPath, '/') . '/' . $uniqueName;
+
+    // Save file
+    if (file_put_contents($filePath, $data) === false) {
+        throw new Exception('Failed to write image file.');
+    }
+
+    return $uniqueName;
 }
 
 function dd($data,$die=1){
@@ -106,17 +187,17 @@ function read_set_json_data(){
 function post($name=''){
 	$ci =& get_instance();
 	if($name == '') {
-		return $ci->input->post();
+		return $ci->input->post(NULL, TRUE);
 	}else{
-		return trim(strip_tags($ci->input->post($name)));
+		return trim(strip_tags($ci->input->post($name, TRUE)));
 	}
 }
 function get($name=''){
 	$ci =& get_instance();
 	if($name == '') {
-		return $ci->input->get();
+		return $ci->input->get(NULL, TRUE);
 	}else{
-		return trim(strip_tags($ci->input->get($name)));
+		return trim(strip_tags($ci->input->get($name, TRUE)));
 	}
 }
 function fv($name='',$label='',$rules=''){

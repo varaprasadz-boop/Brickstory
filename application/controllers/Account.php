@@ -23,8 +23,9 @@ class Account extends CI_Controller {
 		fv('email','email','required|trim|valid_email');
 		fv('password','password','required|trim');
 		if(get('returnUrl')){
-			$this->session->set_userdata("returnUrl",get('returnUrl'));
+			$this->session->set_userdata("returnUrl",validateReturnUrl(get('returnUrl')));
 		}
+		
 		if($this->form_validation->run() == false){
 			$data['title'] = "Login";
 			$data['filename'] = "login";
