@@ -1,0 +1,30 @@
+* {
+    margin: auto;
+}
+
+ion-img {
+    max-width: 200px;
+    margin: 0 auto;
+    margin-top: 170px;
+}
+
+ion-buttons {
+    display: flex;
+    flex-direction: column;
+    max-width: 500px;
+    font-size: 16px;
+
+    ion-text {
+        margin: 20px 0px 20px 0px
+    }
+
+    ion-button {
+        width: 100%;
+        height: 45px;
+        margin: 0 auto;
+    }
+}
+
+.login {
+    margin-right: 35px;
+}

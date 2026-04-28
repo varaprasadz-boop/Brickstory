@@ -1,0 +1,10 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <app-generic-input
+    label="Email"
+    placeholder="Enter email"
+    type="email"
+    [control]="form.controls.email"
+  ></app-generic-input>
+
+  <ion-button expand="block" type="submit">Submit</ion-button>
+</form>

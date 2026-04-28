@@ -1,0 +1,88 @@
+/* Card Styling */
+ion-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+ion-list {
+  background: none;
+}
+/* Profile Image Section */
+.main-div {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 5px;
+}
+
+.second-main-div {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid var(--ion-color-primary);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.second-main-div img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* Edit Icon */
+.create-icon {
+  position: absolute;
+  bottom: 8px;
+  right: calc(50% - 60px);
+  font-size: 22px;
+  background: #fff;
+  border-radius: 50%;
+  padding: 6px;
+  border: 1px solid var(--ion-color-primary);
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+h1 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  color: var(--ion-color-dark);
+}
+
+/* Labels */
+ion-label {
+  font-size: 15px;
+}
+
+ion-label span {
+  color: var(--ion-color-danger);
+  margin-left: 4px;
+  font-size: 22px;
+}
+
+/* Inputs */
+ion-item {
+  --background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+
+ion-item.invalid-item {
+  border-color: var(--ion-color-danger);
+}
+
+.error-message {
+  color: red;
+  font-size: 15px;
+  margin-top: -5px;
+  margin-bottom: 0.5rem;
+}
+
+ion-button {
+  width: 100%;
+  height: 40px;
+}

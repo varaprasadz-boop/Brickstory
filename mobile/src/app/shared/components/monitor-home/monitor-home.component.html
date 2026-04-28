@@ -1,0 +1,41 @@
+<ion-card class="monitor-card" color="primary">
+  <ion-buttons>
+    <ion-button color="secondary" (click)="modalCtrl.dismiss()">
+      <ion-icon slot="icon-only" name="close-circle-outline"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+  <ion-card-content>
+    <p class="monitor-heading">
+      We will monitor your home at:
+    </p>
+    <p class="monitor-address">
+      <strong>
+        {{listing.address1}}
+      </strong><br/>
+      {{listing.city}}, {{listing.state}}, {{listing.zip}}
+    </p>
+    <p class="monitor-info">
+      And will alert you via text of any new photos or new stories added to your home.
+    </p>
+    <p class="monitor-footer">
+      Standard text messaging will apply
+    </p>
+    
+    <!-- Phone number input -->
+    <ion-item class="phone-input-item" [class.ion-invalid]="phoneError && isFormSubmitted">
+      <ion-input type="tel" [(ngModel)]="monitorPhone" label="(XXX) XXX - XXXX" labelPlacement="stacked" placeholder="Enter your phone number"></ion-input>
+    </ion-item>
+    
+    <!-- Error message -->
+    <div *ngIf="phoneError && isFormSubmitted" class="error-message">
+      <ion-text color="secondary">
+        <small>{{ phoneError }}</small>
+      </ion-text>
+    </div>
+    
+    <!-- Save button -->
+    <ion-button mode="ios" expand="block" color="secondary" (click)="monitorHome()">
+      SAVE
+    </ion-button>
+  </ion-card-content>
+</ion-card>

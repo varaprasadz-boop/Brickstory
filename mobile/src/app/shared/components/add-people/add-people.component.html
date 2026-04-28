@@ -1,0 +1,175 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title color="primary" class="login"> Add People </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-list lines="none">
+    <ion-label>First Name<span>*</span></ion-label>
+    <ion-item
+      [ngClass]="{ 'invalid-item': !people.first_name && formSubmitted }"
+    >
+      <ion-input
+        type="text"
+        placeholder="First Name"
+        [(ngModel)]="people.first_name"
+        required
+      ></ion-input>
+    </ion-item>
+    <div *ngIf="!people.first_name && formSubmitted" class="error-message">
+      First Name is required.
+    </div>
+
+    <ion-label>Last Name<span>*</span></ion-label>
+    <ion-item
+      [ngClass]="{ 'invalid-item': !people.last_name && formSubmitted }"
+    >
+      <ion-input
+        type="text"
+        placeholder="Last Name"
+        [(ngModel)]="people.last_name"
+        required
+      ></ion-input>
+    </ion-item>
+    <div *ngIf="!people.last_name && formSubmitted" class="error-message">
+      Last Name is required.
+    </div>
+
+    <ion-label>Relationship</ion-label>
+    <ion-item>
+      <ion-select
+        placeholder="Relationship"
+        interface="action-sheet"
+        [(ngModel)]="people.relation_id"
+        mode="ios"
+      >
+        <ion-select-option
+          *ngFor="let item of relations | keyvalue"
+          [value]="item.key"
+          >{{ item.value }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+
+    <ion-label>From Date<span>*</span></ion-label>
+    <ion-item
+      id="click-trigger"
+      button="true"
+      [ngClass]="{ 'invalid-item': !people.from_date && formSubmitted }"
+      (click)="openDateInput('fromDateInput')"
+    >
+      <ion-input
+        type="text"
+        [value]="displayDates.from_date"
+        placeholder="mm/dd/yyyy"
+        readonly
+        class="native-date"
+      />
+      <input
+        id="fromDateInput"
+        type="date"
+        [max]="maxDate"
+        (change)="onDateSelected($event, 'from')"
+        style="position: absolute; opacity: 0; pointer-events: none;"
+      />
+    </ion-item>
+    <div *ngIf="!people.from_date && formSubmitted" class="error-message">
+      From Date is required.
+    </div>
+
+    <ion-label>To Date</ion-label>
+    <ion-item id="bottom-center" button="true" (click)="openDateInput('toDateInput')">
+      <ion-input
+        type="text"
+        [value]="displayDates.to_date"
+        placeholder="mm/dd/yyyy"
+        readonly
+        class="native-date"
+      />
+      <input
+        id="toDateInput"
+        type="date"
+        [min]="minDates.from_date"
+        [max]="maxDate"
+        (change)="onDateSelected($event, 'to')"
+        style="position: absolute; opacity: 0; pointer-events: none;"
+      />
+    </ion-item>
+    <ion-label>Born Date<span>*</span></ion-label>
+    <ion-item
+      id="bottom-center1"
+      button="true"
+      [ngClass]="{ 'invalid-item': !people.born_date && formSubmitted }"
+      (click)="openDateInput('bornDateInput')"
+    >
+      <ion-input
+        type="text"
+        [value]="displayDates.born_date"
+        placeholder="mm/dd/yyyy"
+        readonly
+        class="native-date"
+      />
+      <input
+        id="bornDateInput"
+        type="date"
+        [max]="maxDate"
+        (change)="onDateSelected($event, 'born')"
+        style="position: absolute; opacity: 0; pointer-events: none;"
+      />
+    </ion-item>
+    <div *ngIf="!people.born_date && formSubmitted" class="error-message">
+      Born Date is required.
+    </div>
+    <ion-label>Death Date</ion-label>
+    <ion-item id="bottom-center2" button="true" (click)="openDateInput('diedDateInput')">
+      <ion-input
+        type="text"
+        [value]="displayDates.died_date"
+        placeholder="mm/dd/yyyy"
+        readonly
+        class="native-date"
+      />
+      <input
+        id="diedDateInput"
+        type="date"
+        [min]="minDates.born_date"
+        [max]="maxDate"
+        (change)="onDateSelected($event, 'died')"
+        style="position: absolute; opacity: 0; pointer-events: none;"
+      />
+    </ion-item>
+
+    <ion-label>Image Source (Optional)</ion-label>
+    <ion-item button="true" detail="true" (click)="takePictureFromCamera()">
+      <ion-text>
+        <p style="color: #656565">Choose Image</p>
+      </ion-text>
+    </ion-item>
+    @if (people.image !=='') {
+    <ion-item style="--background: none; margin-top: 20px">
+      <div class="choosed-img" id="imagePreview">
+        <ion-icon
+          color="primary"
+          (click)="clearImage()"
+          name="close-circle"
+        ></ion-icon>
+        <ion-avatar>
+          <img [src]="people.image" />
+        </ion-avatar>
+      </div>
+    </ion-item>
+    }
+    <ion-label>
+      <ion-checkbox [(ngModel)]="people.living" labelPlacement="end" mode="ios"
+        >Still Living</ion-checkbox
+      >
+    </ion-label>
+  </ion-list>
+
+  <ion-button mode="ios" expand="block" color="primary" (click)="addPeople()"
+    >Add People</ion-button
+  >
+</ion-content>

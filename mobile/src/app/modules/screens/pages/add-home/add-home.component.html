@@ -1,0 +1,212 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary" class="login">Add a Home </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content
+  class="ion-padding"
+  [scrollEvents]="true"
+  (ionScroll)="handleScroll($any($event))"
+>
+  <ion-list lines="none">
+    <ion-label>Address<span>*</span></ion-label>
+
+    <div class="address-autocomplete-wrapper" #addressWrapper>
+      <ion-item
+        [ngClass]="{ 'invalid-item': !inputs.address1 && formSubmitted }"
+        class="address-input-item"
+      >
+        <ion-input
+          type="text"
+          placeholder="Enter Address"
+          [(ngModel)]="inputs.address1"
+          (ionInput)="onAddressInput($event)"
+          (ionFocus)="showAddressDropdown = true"
+          (ionBlur)="onAddressBlur()"
+        ></ion-input>
+        <ion-icon name="location-outline" slot="end" color="medium"></ion-icon>
+      </ion-item>
+      <!-- Inline autocomplete dropdown (no map) -->
+      <div
+        class="address-dropdown"
+        *ngIf="addressSuggestions.length > 0 && showAddressDropdown"
+      >
+        <ion-list class="address-suggestion-list">
+          <ion-item
+            *ngFor="let item of addressSuggestions"
+            (click)="selectAddressSuggestion(item)"
+            class="address-suggestion-item"
+            button
+            lines="full"
+          >
+            <ion-icon name="location-outline" slot="start" class="suggestion-icon"></ion-icon>
+            <ion-label class="suggestion-text">{{ item }}</ion-label>
+          </ion-item>
+        </ion-list>
+        <div class="address-powered-by">powered by Google</div>
+      </div>
+    </div>
+    <div *ngIf="!inputs.address1 && formSubmitted" class="error-message">
+      Address is required.
+    </div>
+
+    <ion-label>City<span>*</span></ion-label>
+    <ion-item [ngClass]="{ 'invalid-item': !inputs.city && formSubmitted }">
+      <ion-input
+        type="text"
+        placeholder="City"
+        [(ngModel)]="inputs.city"
+        required
+      ></ion-input>
+    </ion-item>
+    <div *ngIf="!inputs.city && formSubmitted" class="error-message">
+      City is required.
+    </div>
+    <ion-label>State<span>*</span></ion-label>
+    <ion-item [ngClass]="{ 'invalid-item': !inputs.state && formSubmitted }">
+      <ionic-selectable
+        item-content
+        placeholder="Select State"
+        [itemValueField]="'key'"
+        [itemTextField]="'value'"
+        [items]="params.states | keyvalue"
+        [(ngModel)]="selectedStateObject"
+        [canSearch]="true"
+        (onChange)="onSelectableChange($event.value.key, 'state')"
+        required
+      >
+      </ionic-selectable>
+    </ion-item>
+    <div *ngIf="!inputs.state && formSubmitted" class="error-message">
+      State is required.
+    </div>
+    <ion-label>Zip</ion-label>
+    <ion-item>
+      <ion-input type="number" placeholder="Zip" [(ngModel)]="inputs.zip">
+      </ion-input>
+    </ion-item>
+    <ion-label>Year Built<span>*</span></ion-label>
+    <ion-item
+      [ngClass]="{ 'invalid-item': !inputs.year_built && formSubmitted }"
+    >
+      <ion-input
+        type="number"
+        placeholder="Year Built"
+        [(ngModel)]="inputs.year_built"
+        required
+      ></ion-input>
+    </ion-item>
+    <div *ngIf="!inputs.year_built && formSubmitted" class="error-message">
+      Year Built is required.
+    </div>
+    <ion-label>House Style</ion-label>
+    <ion-item>
+      <ionic-selectable
+        item-content
+        [(ngModel)]="selected"
+        placeholder="Select House Style"
+        [itemValueField]="'key'"
+        [itemTextField]="'value'"
+        [items]="params.house_style | keyvalue"
+        [canSearch]="true"
+        (onChange)="onSelectableChange($event.value?.key, 'house_style')"
+      >
+      </ionic-selectable>
+    </ion-item>
+    <ion-label>Square Feet</ion-label>
+    <ion-item>
+      <ion-input
+        type="number"
+        placeholder="Square Feet"
+        [(ngModel)]="inputs.square_feet"
+      ></ion-input>
+    </ion-item>
+    <ion-label>Original Bedrooms</ion-label>
+    <ion-item>
+      <ion-select
+        placeholder="Original Bedrooms"
+        interface="action-sheet"
+        mode="ios"
+        [(ngModel)]="inputs.bedroom_id"
+      >
+        <ion-select-option
+          [value]="item.key"
+          *ngFor="let item of params.bedroom | keyvalue"
+          >{{ item.value }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+    <ion-label>Original Owner</ion-label>
+    <ion-item>
+      <ion-input
+        type="text"
+        placeholder="Original Owner"
+        value=""
+        [(ngModel)]="inputs.owner_name"
+      >
+      </ion-input>
+    </ion-item>
+    <ion-label>Architect</ion-label>
+    <ion-item>
+      <ion-input
+        type="text"
+        placeholder="Architect"
+        value=""
+        [(ngModel)]="inputs.architech"
+      >
+      </ion-input>
+    </ion-item>
+
+    <ion-label>Original Material</ion-label>
+    <ion-item>
+      <ionic-selectable
+        item-content
+        placeholder="Select Material"
+        [itemValueField]="'key'"
+        [itemTextField]="'value'"
+        [items]="params.material | keyvalue"
+        [canSearch]="true"
+        (onChange)="onSelectableChange($event.value.key, 'material')"
+      >
+      </ionic-selectable>
+    </ion-item>
+
+    <ion-label>Choose Image</ion-label>
+    <ion-item button="true" (click)="takePictureFromCamera()">
+      <ion-text>
+        <p style="color: #656565">Choose Image</p>
+      </ion-text>
+    </ion-item>
+    <ion-item
+      *ngIf="inputs.home_profile_photo !== ''"
+      style="--background: none; margin-top: 20px"
+    >
+      <div class="choosed-img" id="imagePreview">
+        <ion-icon
+          color="primary"
+          (click)="clearImage()"
+          name="close-circle"
+        ></ion-icon>
+        <ion-avatar>
+          <img [src]="inputs.home_profile_photo" />
+        </ion-avatar>
+      </div>
+    </ion-item>
+    @if(inputs.home_profile_photo !== '') {
+    <ion-label>Image Source (Optional)</ion-label>
+    <ion-item>
+      <ion-input
+        type="text"
+        placeholder="Image Source"
+        value=""
+        [(ngModel)]="inputs.image_source"
+      >
+      </ion-input>
+    </ion-item>
+    }
+  </ion-list>
+  <ion-button expand="block" mode="ios" (click)="addHome()">Submit</ion-button>
+</ion-content>

@@ -1,0 +1,221 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title color="primary" class="login"> Add Photo & Story </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-list lines="none">
+    <ion-label>Approximate Date<span style="color: red">*</span></ion-label>
+    <ion-item
+      [ngClass]="{
+        'invalid-item': !photoAndStory.approximate_date && formSubmitted
+      }"
+      button="true"
+      (click)="openDateInput('approximateDateInput')"
+    >
+      <ion-input
+        type="text"
+        [value]="displayDate"
+        placeholder="mm/dd/yyyy"
+        readonly
+        class="native-date"
+      />
+      <input
+        id="approximateDateInput"
+        type="date"
+        [max]="maxDate"
+        (change)="onDateSelected($event)"
+        style="position: absolute; opacity: 0; pointer-events: none;"
+      />
+    </ion-item>
+    <div
+      *ngIf="!photoAndStory.approximate_date && formSubmitted"
+      class="error-message"
+    >
+      Approximate Date is required.
+    </div>
+
+    <ion-label>Setting<span style="color: red">*</span></ion-label>
+    <ion-item
+      [ngClass]="{ 'invalid-item': !photoAndStory.setting_id && formSubmitted }"
+    >
+      <ion-select
+        interface="action-sheet"
+        mode="ios"
+        placeholder="Setting"
+        [(ngModel)]="photoAndStory.setting_id"
+        required
+      >
+        <ion-select-option
+          *ngFor="let item of setting | keyvalue"
+          [value]="item.key"
+          >{{ item.value }}</ion-select-option
+        >
+      </ion-select>
+    </ion-item>
+    <div
+      *ngIf="!photoAndStory.setting_id && formSubmitted"
+      class="error-message"
+    >
+      Setting is required.
+    </div>
+
+    <ion-label>Season</ion-label>
+    <ion-item>
+      <ion-select
+        interface="action-sheet"
+        mode="ios"
+        placeholder="Season"
+        [(ngModel)]="photoAndStory.season_id"
+      >
+        <ion-select-option
+          *ngFor="let item of season | keyvalue"
+          [value]="item.key"
+        >
+          {{ item.value }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-label>Event</ion-label>
+    <ion-item>
+      <ion-select
+        interface="action-sheet"
+        mode="ios"
+        placeholder="Event"
+        [(ngModel)]="photoAndStory.event_id"
+      >
+        <ion-select-option
+          *ngFor="let item of event | keyvalue"
+          [value]="item.key"
+          >{{ item.value }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ng-container *ngIf="isOutdoorsSelected()">
+      <ion-label>Side of House<span style="color: red">*</span></ion-label>
+      <ion-item
+        [ngClass]="{
+          'invalid-item':
+            !photoAndStory.side_of_house_id &&
+            formSubmitted &&
+            isOutdoorsSelected()
+        }"
+      >
+        <ion-select
+          interface="action-sheet"
+          mode="ios"
+          placeholder="Side of House"
+          [(ngModel)]="photoAndStory.side_of_house_id"
+          required
+        >
+          <ion-select-option
+            *ngFor="let item of sideOfHouse | keyvalue"
+            [value]="item.key"
+            >{{ item.value }}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+      <div
+        *ngIf="
+          !photoAndStory.side_of_house_id &&
+          formSubmitted &&
+          isOutdoorsSelected()
+        "
+        class="error-message"
+      >
+        Side of House is required for outdoor settings.
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="isIndoorsSelected()">
+      <ion-label>Room<span style="color: red">*</span></ion-label>
+      <ion-item
+        [ngClass]="{
+          'invalid-item':
+            !photoAndStory.room_id && formSubmitted && isIndoorsSelected()
+        }"
+      >
+        <ion-select
+          interface="action-sheet"
+          mode="ios"
+          placeholder="Room"
+          [(ngModel)]="photoAndStory.room_id"
+          required
+        >
+          <ion-select-option
+            *ngFor="let item of room | keyvalue"
+            [value]="item.key"
+            >{{ item.value }}</ion-select-option
+          >
+        </ion-select>
+      </ion-item>
+      <div
+        *ngIf="!photoAndStory.room_id && formSubmitted && isIndoorsSelected()"
+        class="error-message"
+      >
+        Room is required for indoor settings.
+      </div>
+    </ng-container>
+
+    <ion-label>Story<span style="color: red">*</span></ion-label>
+    <ion-item
+      [ngClass]="{
+        'invalid-item': !photoAndStory.brickstory_desc && formSubmitted
+      }"
+    >
+      <ion-textarea
+        class="custom"
+        placeholder="Enter Story"
+        [(ngModel)]="photoAndStory.brickstory_desc"
+        required
+      ></ion-textarea>
+    </ion-item>
+    <div
+      *ngIf="!photoAndStory.brickstory_desc && formSubmitted"
+      class="error-message"
+    >
+      Story is required.
+    </div>
+
+    <ion-item button="true" (click)="takePictureFromCamera()">
+      <ion-text>
+        <p style="color: #656565">Choose Image</p>
+      </ion-text>
+    </ion-item>
+
+    <ion-item
+      *ngIf="photoAndStory.image !== ''"
+      style="--background: none; margin-top: 20px"
+    >
+      <div class="choosed-img" id="imagePreview">
+        <ion-icon
+          color="primary"
+          (click)="clearImage()"
+          name="close-circle"
+        ></ion-icon>
+        <ion-avatar>
+          <img [src]="photoAndStory.image" />
+        </ion-avatar>
+      </div>
+    </ion-item>
+
+    <div *ngIf="photoAndStory.image !== ''">
+      <ion-label>Image Source (Optional)</ion-label>
+      <ion-item>
+        <ion-input
+          type="text"
+          placeholder="Image Source"
+          [(ngModel)]="photoAndStory.image_source"
+        ></ion-input>
+      </ion-item>
+    </div>
+  </ion-list>
+
+  <ion-button expand="block" mode="ios" (click)="submit()">Submit</ion-button>
+</ion-content>

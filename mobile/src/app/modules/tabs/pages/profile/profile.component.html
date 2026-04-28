@@ -1,0 +1,66 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-button size="large" shape="round" (click)="menuController.open()">
+        <ion-icon name="menu"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title color="primary"> Profile </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row class="ion-align-items-center ion-justify-content-center">
+      <ion-col size-md="12" size-xl="6">
+        <ion-card class="ion-no-padding ion-card">
+          <ion-card-content class="ion-text-center">
+            <div class="img-div">
+              <img [src]="imageSrc" class="rounded-circle"
+                onerror="this.onerror=null; this.src='../../../../assets/img/story.png';">
+            </div>
+            <h1 class="mb-2 name">{{profile.firstname|titlecase}} {{profile.lastname|titlecase}}</h1>
+            <h2 class="mb-2 ">{{profile.email}}</h2>
+          </ion-card-content>
+
+          <ion-list lines="none">
+            <ion-label>
+              <p>Home Search</p>
+            </ion-label>
+            <ion-item button="true" mode="ios" (click)="onClick()">
+              <ion-icon name="home" color="primary"></ion-icon> <ion-label class="ion-padding-start">My Homes</ion-label>
+            </ion-item>
+            <ion-item button="true" mode="ios" (click)="mytimeline()">
+              <ion-icon name="newspaper" color="primary"></ion-icon> <ion-label class="ion-padding-start">My
+                Timeline</ion-label>
+            </ion-item>
+            <ion-item button="true" mode="ios" (click)="mypeople()">
+              <ion-icon name="people-circle-outline" color="primary"></ion-icon> <ion-label class="ion-padding-start">My
+                People</ion-label>
+            </ion-item>
+            <ion-item button="true" mode="ios" (click)="mystories()">
+              <ion-icon name="id-card-outline" color="primary"></ion-icon> <ion-label class="ion-padding-start">My
+                Photos & Stories</ion-label>
+            </ion-item>
+          </ion-list>
+          <ion-list lines="none">
+            <ion-label>
+              <p class="general">General</p>
+            </ion-label>
+            <ion-item button="true" mode="ios" (click)="goToupdate()">
+              <ion-icon name="create" color="primary"></ion-icon> <ion-label class="ion-padding-start">Update
+                Profile</ion-label>
+            </ion-item>
+            <ion-item button="true" mode="ios" (click)="goToSetting()">
+              <ion-icon name="settings" color="primary"></ion-icon> <ion-label
+                class="ion-padding-start">Setting</ion-label>
+            </ion-item>
+            <ion-item button="true" mode="ios" (click)="logOut()" class="ion-margin-bottom last-item">
+              <ion-icon name="log-out" color="primary"></ion-icon> <ion-label class="ion-padding-start">Log
+                Out</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,7 @@
+{
+  "name": "BrickStory",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

@@ -1,0 +1,47 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary"> Contact Us </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <form #contactForm="ngForm" (ngSubmit)="onSubmit(contactForm)">
+    <ion-list lines="none">
+      <ion-label>Name</ion-label>
+      <ion-item [ngClass]="{'error': name.invalid && name.touched}">
+        <ion-input type="text" placeholder="Enter Name" [(ngModel)]="contactUs.name"
+          [ngModelOptions]="{standalone: true}" name="name" required #name="ngModel"></ion-input>
+      </ion-item>
+      <div *ngIf="name.invalid && name.touched" class="error-message">
+        <span *ngIf="name.errors?.['required']">Name is required.</span> 
+      </div>
+
+      <ion-label>Email</ion-label>
+      <ion-item [ngClass]="{'error': email.invalid && email.touched}">
+        <ion-input type="email" placeholder="Enter Email" [(ngModel)]="contactUs.email"
+          [ngModelOptions]="{standalone: true}" name="email" required email #email="ngModel"></ion-input>
+      </ion-item>
+      <div *ngIf="email.invalid && email.touched" class="error-message">
+        <span *ngIf="email.errors?.['required']">Email is required.</span>
+        <span *ngIf="email.errors?.['email']">Invalid email address.</span>
+      </div>
+      <ion-label>Phone Number (Optional)</ion-label>
+      <ion-item>
+        <ion-input type="number" placeholder="Enter Phone Number" [(ngModel)]="contactUs.phone"
+          [ngModelOptions]="{standalone: true}"></ion-input>
+      </ion-item>
+      <ion-label>Message</ion-label>
+      <ion-item [ngClass]="{'error': message.invalid && message.touched}">
+        <ion-textarea class="custom" placeholder="Enter Message" [(ngModel)]="contactUs.message"
+          [ngModelOptions]="{standalone: true}" name="message" required #message="ngModel"></ion-textarea>
+      </ion-item>
+      <div *ngIf="message.invalid && message.touched" class="error-message">
+        <span *ngIf="message.errors?.['required']">Message is required.</span>
+      </div>
+    </ion-list>
+    <ion-button mode="ios" expand="block" type="submit" [disabled]="!contactUs.name||!contactUs.email||!contactUs.message">Submit</ion-button>
+  </form>
+
+</ion-content>

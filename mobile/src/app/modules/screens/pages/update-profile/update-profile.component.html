@@ -1,0 +1,224 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/profile"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary">Update Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Profile Image Section -->
+  <div class="main-div">
+    <div class="second-main-div">
+      <input
+        id="fileInput"
+        type="file"
+        accept="image/*"
+        hidden
+        (change)="loadFile($event)"
+      />
+      <img
+        [src]="updateProfileImage.profile_image || defaultImage"
+        id="output"
+        onerror="this.onerror=null; this.src='../../../../assets/img/story.png';"
+        class="rounded-circle"
+        style="width: 100%; height: 100%"
+      />
+    </div>
+    <ion-icon
+      name="create"
+      (click)="takePictureFromCamera()"
+      class="create-icon"
+      color="primary"
+    ></ion-icon>
+  </div>
+
+  <!-- Profile Name -->
+  <h1 class="mb-2 ion-text-center">
+    {{ profile.firstname | titlecase }} {{ profile.lastname | titlecase }}
+  </h1>
+
+  <!-- Form -->
+  <form #profileForm="ngForm" (ngSubmit)="updateProfile()">
+    <ion-list lines="none">
+      <!-- First Name -->
+      <ion-label>First Name<span>*</span></ion-label>
+      <ion-item
+        [ngClass]="{
+          'invalid-item': profileForm.submitted && !profile.firstname
+        }"
+      >
+        <ion-input
+          type="text"
+          name="firstName"
+          [(ngModel)]="profile.firstname"
+          placeholder="First Name"
+          required
+        ></ion-input>
+      </ion-item>
+      <div
+        *ngIf="profileForm.submitted && !profile.firstname"
+        class="error-message"
+      >
+        First Name is required.
+      </div>
+
+      <!-- Last Name -->
+      <ion-label>Last Name<span>*</span></ion-label>
+      <ion-item
+        [ngClass]="{
+          'invalid-item': profileForm.submitted && !profile.lastname
+        }"
+      >
+        <ion-input
+          type="text"
+          name="lastName"
+          [(ngModel)]="profile.lastname"
+          placeholder="Last Name"
+          required
+        ></ion-input>
+      </ion-item>
+      <div
+        *ngIf="profileForm.submitted && !profile.lastname"
+        class="error-message"
+      >
+        Last Name is required.
+      </div>
+
+      <!-- Email -->
+      <ion-label>Email<span>*</span></ion-label>
+      <ion-item
+        [ngClass]="{
+          'invalid-item':
+            profileForm.submitted &&
+            (!profile.email || !profile.email.includes('@'))
+        }"
+      >
+        <ion-input
+          type="email"
+          name="email"
+          [(ngModel)]="profile.email"
+          placeholder="Email Address"
+          required
+        ></ion-input>
+      </ion-item>
+      <div
+        *ngIf="profileForm.submitted && !profile.email"
+        class="error-message"
+      >
+        Email is required.
+      </div>
+      <div
+        *ngIf="
+          profileForm.submitted && profile.email && !profile.email.includes('@')
+        "
+        class="error-message"
+      >
+        Invalid email format.
+      </div>
+
+      <!-- Address -->
+      <ion-label>Address<span>*</span></ion-label>
+      <ion-item
+        [ngClass]="{
+          'invalid-item': profileForm.submitted && !profile.address
+        }"
+      >
+        <ion-input
+          type="text"
+          name="address"
+          [(ngModel)]="profile.address"
+          placeholder="Address"
+          required
+        ></ion-input>
+      </ion-item>
+      <div
+        *ngIf="profileForm.submitted && !profile.address"
+        class="error-message"
+      >
+        Address is required.
+      </div>
+
+      <!-- City -->
+      <ion-label>City<span>*</span></ion-label>
+      <ion-item
+        [ngClass]="{
+          'invalid-item': profileForm.submitted && !profile.city
+        }"
+      >
+        <ion-input
+          type="text"
+          name="city"
+          [(ngModel)]="profile.city"
+          placeholder="City"
+          required
+        ></ion-input>
+      </ion-item>
+      <div *ngIf="profileForm.submitted && !profile.city" class="error-message">
+        City is required.
+      </div>
+
+      <!-- State -->
+      <ion-label>State<span>*</span></ion-label>
+      <ion-item
+        [ngClass]="{
+          'invalid-item': profileForm.submitted && !profile.state
+        }"
+      >
+        <ion-input
+          type="text"
+          name="state"
+          [(ngModel)]="profile.state"
+          placeholder="State"
+          required
+        ></ion-input>
+      </ion-item>
+      <div
+        *ngIf="profileForm.submitted && !profile.state"
+        class="error-message"
+      >
+        State is required.
+      </div>
+
+      <!-- Zip -->
+      <ion-label>Zip<span>*</span></ion-label>
+      <ion-item
+        [ngClass]="{
+          'invalid-item': profileForm.submitted && !profile.zip
+        }"
+      >
+        <ion-input
+          type="text"
+          name="zip"
+          [(ngModel)]="profile.zip"
+          placeholder="Zip Code"
+          required
+        ></ion-input>
+      </ion-item>
+      <div *ngIf="profileForm.submitted && !profile.zip" class="error-message">
+        Zip is required.
+      </div>
+    </ion-list>
+
+    <!-- Buttons -->
+    <ion-buttons>
+      <ion-button
+        fill="outline"
+        color="primary"
+        shape="round"
+        expand="block"
+        routerLink="/tabs/profile"
+        >Cancel</ion-button
+      >
+      <ion-button
+        color="primary"
+        expand="block"
+        fill="solid"
+        shape="round"
+        type="submit"
+        >Update</ion-button
+      >
+    </ion-buttons>
+  </form>
+</ion-content>

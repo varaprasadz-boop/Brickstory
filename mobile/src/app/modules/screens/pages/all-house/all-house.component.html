@@ -1,0 +1,66 @@
+<ion-header mode="ios" class="ion-no-border ion-text-center">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title color="primary" class="login">Houses</ion-title>
+    <ion-buttons slot="end">
+      <ion-button
+        size="large"
+        *ngIf="isFiltered == false"
+        (click)="openFilterModal()"
+      >
+        <ion-icon name="filter-circle-outline"></ion-icon>
+      </ion-button>
+      <ion-button
+        size="large"
+        *ngIf="isFiltered == true"
+        (click)="clearFilter()"
+      >
+        <ion-icon name="close-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div
+    *ngIf="allHouses.length === 0 && !isLoading"
+    class="ion-text-center"
+    style="
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    "
+  >
+    <img src="assets/svg/nodata.svg" alt="No data" class="no-data-image" />
+    <h2>No Houses Found</h2>
+  </div>
+  
+  <!-- Show skeleton loader when loading initial data -->
+  <app-card-skeleton *ngIf="isLoading && allHouses.length === 0"></app-card-skeleton>
+  
+  <!-- Show actual data -->
+  <ion-grid *ngIf="allHouses.length > 0 || isLoading">
+    <ion-row>
+      <ion-col
+        size="12"
+        sizeMd="6"
+        sizeLg="4"
+        sizeXl="4"
+        *ngFor="let listing of allHouses; let i = index"
+      >
+        <app-card [listing]="listing"></app-card>
+      </ion-col>
+    </ion-row>
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMore($event)">
+      <ion-infinite-scroll-content
+        class="custom-infinite-scroll-content"
+        loadingSpinner="bubbles"
+        loadingText="Loading more data..."
+      >
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ion-grid>
+</ion-content>

@@ -1,0 +1,222 @@
+<ion-header mode="ios">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="cancel()">Cancel</ion-button>
+    </ion-buttons>
+    <ion-title> Filter </ion-title>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-list>
+    <!-- Street -->
+    <ion-label>Street</ion-label>
+    <ion-item lines="none">
+      <ion-input
+        type="text"
+        placeholder="Street"
+        [(ngModel)]="filterArray.street"
+      >
+      </ion-input>
+    </ion-item>
+
+    <!-- City -->
+    <ion-label>City</ion-label>
+    <ion-item lines="none">
+      <ion-input type="text" placeholder="City" [(ngModel)]="filterArray.city">
+      </ion-input>
+    </ion-item>
+
+    <!-- State -->
+    <ion-label>State</ion-label>
+    <ion-item lines="none">
+      <ionic-selectable
+        item-content
+        placeholder="Select State"
+        [itemValueField]="'key'"
+        [itemTextField]="'value'"
+        [items]="params.states | keyvalue"
+        [canSearch]="true"
+        (onChange)="onSelectableChange($event.value.key, 'state')"
+      >
+      </ionic-selectable>
+    </ion-item>
+
+    <!-- Zip Code -->
+    <ion-label>Zip Code</ion-label>
+    <ion-item lines="none">
+      <ion-input
+        type="text"
+        placeholder="Zip Code"
+        [(ngModel)]="filterArray.zipCode"
+      >
+      </ion-input>
+    </ion-item>
+
+    <!-- Year Built -->
+    <ion-label>Year Built</ion-label>
+    <ion-item lines="none">
+      {{ filterArray.rangeYearBuilt.lower }}
+      <ion-range
+        [min]="1600"
+        [max]="2024"
+        [value]="{
+          lower: filterArray.rangeYearBuilt.lower,
+          upper: filterArray.rangeYearBuilt.upper
+        }"
+        aria-label="Year Built"
+        [dualKnobs]="true"
+        [(ngModel)]="filterArray.rangeYearBuilt"
+        (ionChange)="yearRangeChange($event)"
+      >
+      </ion-range>
+      {{ filterArray.rangeYearBuilt.upper }}
+    </ion-item>
+
+    <!-- House Style -->
+    <ion-label>House Style</ion-label>
+    <ion-item lines="none">
+      <ionic-selectable
+        item-content
+        placeholder="Select House Style"
+        [itemValueField]="'key'"
+        [itemTextField]="'value'"
+        [items]="params.house_style | keyvalue"
+        [canSearch]="true"
+        (onChange)="onSelectableChange($event.value.key, 'house_style')"
+      >
+      </ionic-selectable>
+    </ion-item>
+
+    <!-- Sq Ft -->
+    <ion-label>Sq Ft</ion-label>
+    <ion-item lines="none">
+      {{ filterArray.rangeSquareFeet.lower }}
+      <ion-range
+        aria-label="Sq Ft"
+        [dualKnobs]="true"
+        [min]="1"
+        [max]="10000"
+        [(ngModel)]="filterArray.rangeSquareFeet"
+        [value]="{
+          lower: filterArray.rangeSquareFeet.lower,
+          upper: filterArray.rangeSquareFeet.upper
+        }"
+        (ionChange)="sqFtRangeChange($event)"
+      >
+      </ion-range>
+      {{ filterArray.rangeSquareFeet.upper }}
+    </ion-item>
+
+    <!-- Bedroom -->
+    <ion-label>Bedroom</ion-label>
+    <ion-item lines="none">
+      <ion-select
+        [(ngModel)]="filterArray.bedroom"
+        interface="action-sheet"
+        mode="ios"
+        placeholder="Bedroom"
+      >
+        <ion-select-option
+          *ngFor="let item of params.bedroom | keyvalue"
+          [value]="item.value"
+        >
+          {{ item.value }}
+        </ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <!-- Original Owner Name -->
+    <ion-label>Original Owner Name</ion-label>
+    <ion-item lines="none">
+      <ion-input
+        type="text"
+        placeholder="Original Owner Name"
+        [(ngModel)]="filterArray.ownerName"
+      >
+      </ion-input>
+    </ion-item>
+
+    <!-- Material -->
+    <ion-label>Material</ion-label>
+    <ion-item lines="none">
+      <ionic-selectable
+        item-content
+        placeholder="Material"
+        [itemValueField]="'key'"
+        [itemTextField]="'value'"
+        [items]="params.material | keyvalue"
+        [canSearch]="true"
+        (onChange)="onSelectableChange($event.value.key, 'material')"
+      >
+      </ionic-selectable>
+    </ion-item>
+
+    <!-- Foundation -->
+    <ion-label>Foundation</ion-label>
+    <ion-item lines="none">
+      <ionic-selectable
+        item-content
+        placeholder="Foundation"
+        [itemValueField]="'key'"
+        [itemTextField]="'value'"
+        [items]="params.foundation | keyvalue"
+        [canSearch]="true"
+        (onChange)="onSelectableChange($event.value.key, 'foundation')"
+      >
+      </ionic-selectable>
+    </ion-item>
+
+    <!-- Roof Type -->
+    <ion-label>Roof Type</ion-label>
+    <ion-item lines="none">
+      <ionic-selectable
+        item-content
+        placeholder="Roof Type"
+        [itemValueField]="'key'"
+        [itemTextField]="'value'"
+        [items]="params.roof | keyvalue"
+        [canSearch]="true"
+        (onChange)="onSelectableChange($event.value.key, 'roof')"
+      >
+      </ionic-selectable>
+    </ion-item>
+
+    <!-- County -->
+    <ion-label>County</ion-label>
+    <ion-item lines="none">
+      <ion-input
+        type="text"
+        placeholder="County"
+        [(ngModel)]="filterArray.country"
+      >
+      </ion-input>
+    </ion-item>
+
+    <!-- NRHP -->
+    <ion-checkbox labelPlacement="end" [(ngModel)]="filterArray.nrhp">
+      NRHP Property
+    </ion-checkbox>
+
+    <!-- Near Me -->
+    <ion-label *ngIf="type !== 'houses'">Near Me</ion-label>
+    <ion-item *ngIf="type !== 'houses'" lines="none">
+      Min:{{ filterArray.rangeMile.lower }}mi
+      <ion-range
+        aria-label="Near By"
+        [min]="0"
+        [max]="50"
+        [dualKnobs]="true"
+        [(ngModel)]="filterArray.rangeMile"
+        [value]="{
+          lower: filterArray.rangeMile.lower,
+          upper: filterArray.rangeMile.upper
+        }"
+        (ionChange)="mileRangeChange($event)"
+      >
+      </ion-range>
+      Max:{{ filterArray.rangeMile.upper }}mi
+    </ion-item>
+  </ion-list>
+  <ion-button expand="block" mode="ios" (click)="confirm()">Search</ion-button>
+</ion-content>

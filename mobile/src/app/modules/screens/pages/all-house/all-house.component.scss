@@ -1,0 +1,74 @@
+ion-col:last-child {
+    margin-bottom: 80px;
+  }
+  
+  .custom-infinite-scroll-content {
+    margin-bottom: 30px;
+  }
+  
+  
+  
+  .slider-div {
+    --background-image: none;
+    background-image: var(--background-image);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 230px;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+  }
+  
+  .slider-div-content {
+    height: 100%;
+    width: 100%;
+    border-radius: 10px;
+    background-image: linear-gradient(transparent 0%, rgba(63, 74, 75, 0.877) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    ion-label {
+      margin: 0px 20px 20px 20px;
+      h1 {
+        font-weight: 700;
+        color: white;
+      }
+      p {
+        color: white;
+      }
+    }
+  }
+  
+  .top-label {
+    background: #516466;
+    width: 80px;
+    margin-top: 10px;
+  
+    h3 {
+      padding-left: 10px;
+      margin: 0px;
+    }
+  }
+  
+  .ribbon {
+    height: 40px;
+    padding-top: 7px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    color: #fff;
+    width: 70%;
+    --f: .5em;
+    --r: .8em;
+    position: absolute;
+    bottom: 7px;
+    left: calc(-1*var(--f));
+    padding-left: 10px;
+    background: var(--ion-color-primary);
+    border-top: var(--f) solid #0005;
+    border-right: var(--r) solid #0000;
+    clip-path: polygon(calc(100% - var(--r)) 100%, 0 100%, 0 var(--f), var(--f) 0,
+        var(--f) var(--f), calc(100% - var(--r)) var(--f),
+        100% calc(50% + var(--f)/2));
+  }

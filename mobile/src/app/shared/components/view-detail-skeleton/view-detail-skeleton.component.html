@@ -1,0 +1,126 @@
+<ion-grid>
+  <ion-row>
+    <ion-col size="12">
+      <!-- Image Skeleton -->
+      <div class="image-skeleton">
+        <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%;"></ion-skeleton-text>
+      </div>
+
+      <!-- Address Skeleton -->
+      <ion-list mode="ios">
+        <ion-item color="primary" lines="none">
+          <ion-skeleton-text [animated]="true" slot="start" style="width: 24px; height: 24px; border-radius: 50%;"></ion-skeleton-text>
+          <ion-label>
+            <ion-skeleton-text [animated]="true" style="width: 80%; height: 16px;"></ion-skeleton-text>
+            <ion-skeleton-text [animated]="true" style="width: 60%; height: 16px; margin-top: 4px;"></ion-skeleton-text>
+          </ion-label>
+        </ion-item>
+      </ion-list>
+    </ion-col>
+
+    <!-- Segment Skeleton -->
+    <ion-segment [value]="segment" style="overflow-x: auto" mode="md">
+      <ion-segment-button value="details" style="width: 100px; margin-left: 50px">
+        Details
+      </ion-segment-button>
+      <ion-segment-button value="stories" style="width: 170px">
+        Photos & Stories
+      </ion-segment-button>
+      <ion-segment-button value="people" style="width: 100px">
+        People
+      </ion-segment-button>
+      <ion-segment-button value="timeline" style="width: 100px">
+        Timeline
+      </ion-segment-button>
+    </ion-segment>
+
+    <div style="width: 100%">
+      <!-- Details Skeleton -->
+      <ion-col *ngIf="segment === 'details'" size="12">
+        <ion-card>
+          <ion-card-header class="ion-text-center">
+            <ion-skeleton-text [animated]="true" style="width: 50%; height: 24px; margin: 0 auto;"></ion-skeleton-text>
+          </ion-card-header>
+          <ion-card-content>
+            <ion-list mode="ios">
+              <ion-item *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]">
+                <ion-label>
+                  <ion-skeleton-text [animated]="true" style="width: 40%; height: 16px;"></ion-skeleton-text>
+                </ion-label>
+                <ion-label slot="end">
+                  <ion-skeleton-text [animated]="true" style="width: 80px; height: 16px;"></ion-skeleton-text>
+                </ion-label>
+              </ion-item>
+            </ion-list>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+
+      <!-- Stories Skeleton -->
+      <ion-col *ngIf="segment === 'stories'" size="12">
+        <ion-list>
+          <ion-item class="ion-item" lines="none" *ngFor="let item of storiesItems">
+            <ion-avatar slot="start">
+              <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%;"></ion-skeleton-text>
+            </ion-avatar>
+            <ion-label>
+              <ion-skeleton-text [animated]="true" style="width: 60%; height: 18px;"></ion-skeleton-text>
+              <ion-skeleton-text [animated]="true" style="width: 40%; height: 14px; margin-top: 4px;"></ion-skeleton-text>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+
+      <!-- People Skeleton -->
+      <ion-col *ngIf="segment === 'people'" size="12">
+        <ion-accordion-group class="ion-no-margin" *ngFor="let item of peopleItems">
+          <ion-accordion>
+            <ion-item class="ion-item" slot="header">
+              <ion-avatar>
+                <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%;"></ion-skeleton-text>
+              </ion-avatar>
+              <ion-label class="ion-padding-start">
+                <ion-skeleton-text [animated]="true" style="width: 70%; height: 18px;"></ion-skeleton-text>
+                <ion-skeleton-text [animated]="true" style="width: 50%; height: 14px; margin-top: 4px;"></ion-skeleton-text>
+              </ion-label>
+            </ion-item>
+            <div slot="content">
+              <ion-item *ngFor="let i of [1,2,3,4,5]">
+                <ion-label>
+                  <ion-skeleton-text [animated]="true" style="width: 40%; height: 16px;"></ion-skeleton-text>
+                </ion-label>
+                <ion-label slot="end">
+                  <ion-skeleton-text [animated]="true" style="width: 80px; height: 16px;"></ion-skeleton-text>
+                </ion-label>
+              </ion-item>
+            </div>
+          </ion-accordion>
+        </ion-accordion-group>
+      </ion-col>
+
+      <!-- Timeline Skeleton -->
+      <ion-col *ngIf="segment === 'timeline'" size="12">
+        <div class="timeline">
+          <div class="container right">
+            <div class="content">
+              <ion-skeleton-text [animated]="true" style="width: 60px; height: 20px; margin-bottom: 8px;"></ion-skeleton-text>
+              <ion-skeleton-text [animated]="true" style="width: 80%; height: 20px; margin-bottom: 12px;"></ion-skeleton-text>
+            </div>
+          </div>
+        </div>
+        <div class="timeline timelines">
+          <div class="container right" *ngFor="let item of timelineItems">
+            <div class="content">
+              <ion-skeleton-text [animated]="true" style="width: 80px; height: 18px; margin-bottom: 8px;"></ion-skeleton-text>
+              <ion-skeleton-text [animated]="true" style="width: 70%; height: 18px; margin-bottom: 8px;"></ion-skeleton-text>
+              <ion-skeleton-text [animated]="true" style="width: 90%; height: 16px; margin-bottom: 12px;"></ion-skeleton-text>
+              <div class="skeleton-image-timeline">
+                <ion-skeleton-text [animated]="true" style="width: 100%; height: 100%;"></ion-skeleton-text>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ion-col>
+    </div>
+  </ion-row>
+</ion-grid>
