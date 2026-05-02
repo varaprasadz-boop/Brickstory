@@ -34,7 +34,9 @@ class Users extends Admin_Controller {
 			$where['DATE(date_added) <= '] = date("Y-m-d",strtotime($end_date));
 		}
 
-		$data['users'] = $this->sqlmodel->getRecords('u.*,r.role_name','users u '.$external_join, $sortby, $orderby, $where, $data['limit'], $start);
+		$data['users'] = $this->sqlmodel->getRecords("u.*,r.role_name,
+			(SELECT COUNT(*) FROM brickstory_profile bp WHERE bp.user_id = u.id) AS properties_count",
+			'users u '.$external_join, $sortby, $orderby, $where, $data['limit'], $start);
 		$data['count'] = $this->sqlmodel->countRecords('users',$where);
 		$data['total_pages'] = ceil($data['count']/$data['limit']);
 
@@ -128,5 +130,32 @@ class Users extends Admin_Controller {
 			set_msg('success','Record has been deleted successfully.');
 			redirect(ADMIN_URL.'users');
 		}
+	}
+
+	public function bulk_delete()
+	{
+		$userIds = $this->input->post('user_ids');
+		if (empty($userIds) || !is_array($userIds)) {
+			set_msg('warning', 'Please select at least one user.');
+			redirect(ADMIN_URL.'users');
+		}
+
+		$validIds = array();
+		foreach ($userIds as $id) {
+			$id = (int) $id;
+			if ($id > 0) {
+				$validIds[] = $id;
+			}
+		}
+
+		if (empty($validIds)) {
+			set_msg('warning', 'No valid users selected.');
+			redirect(ADMIN_URL.'users');
+		}
+
+		$this->db->where_in('id', $validIds);
+		$this->db->update('users', array('status' => -1));
+		set_msg('success', count($validIds) . ' user(s) deleted successfully.');
+		redirect(ADMIN_URL.'users');
 	}
 }

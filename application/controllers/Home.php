@@ -54,6 +54,9 @@ class Home extends CI_Controller {
 	}
 
 	public function send_sms($num,$type,$address='') {
+		if (get_settings('BIZ_NOTIFY_SMS_ENABLED', '1') !== '1') {
+			return;
+		}
         // $to = '+1-248-417-0470'; // Recipient's phone number
 		$num = $this->formatPhoneNumber($num);
         // $message = 'Hello, this is a test message from CodeIgniter!';
@@ -71,7 +74,8 @@ Please click here to see what has been added.";
 
 		}
 		$check_sms_per_day = check_sms_per_day($num);
-		if($check_sms_per_day <= 3){
+		$dailyLimit = (int) get_settings('SMS_DAILY_LIMIT_PER_PHONE', '5');
+		if($check_sms_per_day <= $dailyLimit){
         	$result = $this->twilio_lib->send_sms($num, $message);
 			if ($result) {
 				save_sms_detail($num,$message,1);
@@ -142,11 +146,11 @@ Please click here to see what has been added.";
 		$lat = isset($get['lat'])?($get['lat']):('');
 		$lng = isset($get['lng'])?($get['lng']):('');
 		$data['get'] = get();
-		$dis = 10000;
+		$dis = (int) get_settings('BIZ_DEFAULT_SEARCH_RADIUS_MILES', '10000');
 		$data['pagelink'] = $page;
 		$page = ($page >=0)?($page - 1):($page);
-		$start = ($page * get_settings('RECORD_PER_PAGE'));
-		$data['limit'] = get_settings('RECORD_PER_PAGE');
+		$start = ($page * get_settings('BIZ_RECORDS_PER_PAGE', get_settings('RECORD_PER_PAGE', 12)));
+		$data['limit'] = get_settings('BIZ_RECORDS_PER_PAGE', get_settings('RECORD_PER_PAGE', 12));
 		$data['page'] = $page;
 
 		$data['real_page']=$page;
@@ -287,8 +291,8 @@ FROM brickstory_profile dest ".$where;
 		$data['pagelink'] = $page;
 
 		$page = ($page >=0)?($page - 1):($page);
-		$start = ($page * get_settings('RECORD_PER_PAGE'));
-		$data['limit'] = get_settings('RECORD_PER_PAGE');
+		$start = ($page * get_settings('BIZ_RECORDS_PER_PAGE', get_settings('RECORD_PER_PAGE', 12)));
+		$data['limit'] = get_settings('BIZ_RECORDS_PER_PAGE', get_settings('RECORD_PER_PAGE', 12));
 		$data['page'] = $page;
 		$data['real_page']=$page;
 		$where = '';
@@ -475,8 +479,8 @@ FROM brickstory_profile dest ".$where;
 		$sortby = 'id';
 		$orderby = 'desc';
 		$page = ($page >=0)?($page - 1):($page);
-		$start = ($page * get_settings('RECORD_PER_PAGE'));
-		$data['limit'] = get_settings('RECORD_PER_PAGE');
+		$start = ($page * get_settings('BIZ_RECORDS_PER_PAGE', get_settings('RECORD_PER_PAGE', 12)));
+		$data['limit'] = get_settings('BIZ_RECORDS_PER_PAGE', get_settings('RECORD_PER_PAGE', 12));
 		$data['page'] = $page;
 		$data['real_page']=$page;
 
@@ -542,8 +546,8 @@ FROM brickstory_profile dest ".$where;
 		$sortby = 'id';
 		$orderby = 'desc';
 		$page = ($page >=0)?($page - 1):($page);
-		$start = ($page * get_settings('RECORD_PER_PAGE'));
-		$data['limit'] = get_settings('RECORD_PER_PAGE');
+		$start = ($page * get_settings('BIZ_RECORDS_PER_PAGE', get_settings('RECORD_PER_PAGE', 12)));
+		$data['limit'] = get_settings('BIZ_RECORDS_PER_PAGE', get_settings('RECORD_PER_PAGE', 12));
 		$data['page'] = $page;
 		$data['real_page']=$page;
 

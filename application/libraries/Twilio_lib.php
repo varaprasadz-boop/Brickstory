@@ -12,15 +12,25 @@ class Twilio_lib {
 
     public function __construct() {
         $this->CI =& get_instance();
-        $this->CI->load->config('twilio');
-        
-        $sid = $this->CI->config->item('twilio')['sid'];
-        $token = $this->CI->config->item('twilio')['token'];
+        $sid = get_settings('SMS_TWILIO_SID', '');
+        $token = get_secret_settings('SMS_TWILIO_TOKEN', '');
+        if (empty($sid) || empty($token)) {
+            log_message('error', 'Twilio not configured: missing SID or token in settings.');
+            $this->client = null;
+            return;
+        }
         $this->client = new Client($sid, $token);
     }
 
     public function send_sms($to, $message) {
-        $from = $this->CI->config->item('twilio')['from'];
+        if ($this->client === null) {
+            return 'Twilio not configured';
+        }
+        $from = get_settings('SMS_TWILIO_FROM', '');
+        if (empty($from)) {
+            log_message('error', 'Twilio "from" number not configured.');
+            return 'Twilio "from" missing';
+        }
         try {
             $message = $this->client->messages->create(
                 $to,

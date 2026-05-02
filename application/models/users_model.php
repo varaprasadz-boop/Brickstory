@@ -574,7 +574,7 @@ class Users_model extends CI_Model
     {
         $data = array(
             'activation_code' => get_random_string(),
-            'activation_expiry' => date('Y:m:d H:i:s',strtotime('+1 day', now()))
+            'activation_expiry' => date('Y-m-d H:i:s', strtotime('+' . (int) get_settings('BIZ_ACTIVATION_EXPIRY_HOURS', '24') . ' hours', now()))
         );
         $this->db->where('activation_code', '' . $activation_key . '');
         $this->db->update($this->_tbl_users, $data);

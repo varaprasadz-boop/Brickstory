@@ -4,6 +4,7 @@
 		<a href="<?php echo ADMIN_URL.'users/add'; ?>" style="float: right" class="btn btn-primary">Add User</a>
 	</h6>
 	<div class="element-box">
+		<form method="post" action="<?php echo ADMIN_URL.'users/bulk_delete'; ?>" onsubmit="return confirm('Are you sure you want to delete selected users?');">
 
 		<!--------------------
 		START - Controls Above Table
@@ -42,12 +43,15 @@
 			<table class="table table-lightborder">
 				<thead>
 				<tr>
+					<th><input type="checkbox" id="select-all-users"></th>
 					<th>#</th>
 					<th>First Name</th>
 					<th>Last Name</th>
 					<th class="text-center">Email</th>
 					<th class="text-center">Role</th>
+					<th class="text-center">Properties</th>
 					<th class="text-right">Status</th>
+					<th class="text-right">Registered On</th>
 					<th class="text-right">Actions</th>
 				</tr>
 				</thead>
@@ -62,11 +66,13 @@
 						);
 							foreach($users as $key => $val){?>
 					<tr>
+					<td><input type="checkbox" class="user-checkbox" name="user_ids[]" value="<?php echo (int) $val->id; ?>"></td>
 					<td><?php echo $val->id;  ?></td>
 					<td><?php echo $val->firstname; ?></td>
 					<td><?php echo $val->lastname; ?></td>
 					<td><?php echo $val->email; ?></td>
 					<td><?php echo $val->role_name; ?></td>
+					<td class="text-center"><?php echo (int) $val->properties_count; ?></td>
 					<td class="text-center">
 						<span class="badge badge-<?php echo ($val->status == '-1')?('danger'):(
 								($val->status == 0)?('warning'):(
@@ -76,6 +82,7 @@
 							<?php echo $status[$val->status]; ?>
 						</span>
 					</td>
+					<td class="text-right"><?php echo !empty($val->created) ? date("M d, Y h:i A", strtotime($val->created)) : "-"; ?></td>
 					<td class="text-right">
 						<a href="<?php echo ADMIN_URL."users/edit/".$val->id ?>" class="btn btn-primary btn-sm">
 							<i class="os-icon os-icon-pencil-2"></i>
@@ -96,6 +103,9 @@
 			<!--------------------
 			END - Basic Table
 			-------------------->
+		</div>
+		<div class="mb-3">
+			<button type="submit" class="btn btn-danger btn-sm">Bulk Delete Selected</button>
 		</div>
 	<div class="row">
 		<div class="col-md-12">
@@ -149,5 +159,14 @@
 
 		</div>
 	</div>
+		</form>
 	</div>
 </div>
+<script>
+	document.getElementById('select-all-users').addEventListener('change', function () {
+		var checked = this.checked;
+		document.querySelectorAll('.user-checkbox').forEach(function (el) {
+			el.checked = checked;
+		});
+	});
+</script>

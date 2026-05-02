@@ -2,7 +2,7 @@
 <div class="container-fluid footer">
 	<div class="container">
 		<div class="d-flex justify-content-center justify-content-sm-between  flex-wrap flax-sm-nowrap">
-			<a class="nav-item nav-link head-item"><img src="<?php echo ASSETS; ?>images/logo.png" class="logoimg"></a>
+			<a class="nav-item nav-link head-item"><img src="<?php echo htmlspecialchars(site_logo()); ?>" class="logoimg"></a>
 			<div class="nav-item nav-link pt50">
 				<div class="d-flex footermenu justify-content-between justify-content-sm-between flex-wrap align-content-center">
 					<a class="nav-item nav-link " href="javascript:void(0);" onClick="$('.nearmeform').submit();">Near Me</a>
@@ -54,14 +54,14 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12 col-lg-4  fs13  ">
-				<p>&copy; <?php echo date("Y",time()); ?> Brickstory , LLC | All rights reserved <br />D-U-N-S Number is: 119298684</p>
+				<p>&copy; <?php echo date("Y",time()); ?> <?php echo htmlspecialchars(site_name()); ?>, LLC | All rights reserved <br />D-U-N-S Number is: 119298684</p>
 			</div>
 
 			<div class="col-lg-4 text-center" href="#">
 				<div class="d-flex justify-content-center">
-					<a target="_blank" class="colorf2 nav-item nav-link" href="https://www.facebook.com/OurBrickStory/"><i class="fa fa-facebook fs16" aria-hidden="true"></i></a>
-					<a target="_blank" class="colorf2 nav-item nav-link" href="https://instagram.com/brickstorycom/"><i class="fa fa-instagram fs16" aria-hidden="true"></i></a>
-					<a target="_blank" class="colorf2 nav-item nav-link" href="https://twitter.com/BrickStoryCom"><i class="fa fa-twitter fs16" aria-hidden="true"></i></a>
+					<?php if ($facebook = get_settings('SOCIAL_FACEBOOK', '')) { ?><a target="_blank" class="colorf2 nav-item nav-link" href="<?php echo htmlspecialchars($facebook); ?>"><i class="fa fa-facebook fs16" aria-hidden="true"></i></a><?php } ?>
+					<?php if ($instagram = get_settings('SOCIAL_INSTAGRAM', '')) { ?><a target="_blank" class="colorf2 nav-item nav-link" href="<?php echo htmlspecialchars($instagram); ?>"><i class="fa fa-instagram fs16" aria-hidden="true"></i></a><?php } ?>
+					<?php if ($twitter = get_settings('SOCIAL_TWITTER', '')) { ?><a target="_blank" class="colorf2 nav-item nav-link" href="<?php echo htmlspecialchars($twitter); ?>"><i class="fa fa-twitter fs16" aria-hidden="true"></i></a><?php } ?>
 				</div>
 			</div>
 		</div>
@@ -218,7 +218,10 @@ $(document).ready(function() {
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
 
-<!-- Google tag (gtag.js) --> <script async src="https://www.googletagmanager.com/gtag/js?id=G-VWLVQMH8NN"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-VWLVQMH8NN'); </script>
+<?php if ($ga = get_settings('SEO_GOOGLE_ANALYTICS_ID', '')) { ?>
+<script async src="https://www.googletagmanager.com/gtag/js?id=<?php echo htmlspecialchars($ga); ?>"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','<?php echo htmlspecialchars($ga); ?>');</script>
+<?php } ?>
 
 <script>
 	$('.editablePerson').editable({
@@ -777,15 +780,6 @@ $(document).ready(function() {
 		</div>
 	</div>
 </div>
-<!-- Global Site Tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-107376199-1"></script>
-<script>
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments)};
-	gtag('js', new Date());
-
-	gtag('config', 'UA-107376199-1');
-</script>
 <script>
 	var $modal = $('#modal');
 	var image = document.getElementById('image');

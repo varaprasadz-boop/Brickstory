@@ -1,0 +1,17 @@
+INSERT IGNORE INTO settings (setting_title,setting_label,setting_value,setting_group,setting_type,is_secret,sort_order) VALUES
+('Site Name','BRAND_SITE_NAME','BrickStory','branding','text',0,10),
+('Logo URL','BRAND_LOGO_URL','','branding','image',0,20),
+('Favicon URL','BRAND_FAVICON_URL','','branding','image',0,30),
+('Open-Graph image','BRAND_OG_IMAGE_URL','','branding','image',0,40),
+('Primary color','BRAND_PRIMARY_COLOR','#000000','branding','text',0,50),
+('Footer HTML','BRAND_FOOTER_HTML','','branding','richtext',0,60),
+('Support email','CONTACT_SUPPORT_EMAIL','admin@brickstory.com','contact','email',0,10),
+('Support phone','CONTACT_SUPPORT_PHONE','','contact','text',0,20),
+('Mailing address','CONTACT_ADDRESS','','contact','textarea',0,30),
+('Facebook URL','SOCIAL_FACEBOOK','','contact','url',0,40),
+('Instagram URL','SOCIAL_INSTAGRAM','','contact','url',0,50),
+('Twitter URL','SOCIAL_TWITTER','','contact','url',0,60),
+('YouTube URL','SOCIAL_YOUTUBE','','contact','url',0,70),
+('iOS App Store URL','APPSTORE_IOS_URL','','contact','url',0,80),
+('Android Play Store URL','APPSTORE_ANDROID_URL','','contact','url',0,90),
+('Admin URL segment','SYSTEM_ADMIN_URL_SEGMENT','brickstoryadmin','system','text',0,10);

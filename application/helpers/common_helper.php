@@ -395,8 +395,8 @@ if(!function_exists('msg')) {
 	$config['create_thumb'] = FALSE;
 	$config['maintain_ratio'] = TRUE;
 //	$config['thumb_marker'] = '_thumb';
-	$config['width'] = 230;
-	$config['height'] = 155;
+	$config['width'] = (int) get_settings('UPLOAD_THUMB_WIDTH', '230');
+	$config['height'] = (int) get_settings('UPLOAD_THUMB_HEIGHT', '155');
 	$config['quality'] = 100;
 	$config['master_dim'] = 'width';
 	$ci->load->library('image_lib', $config);
@@ -411,8 +411,8 @@ if(!function_exists('do_upload')){
 		}else{
 			$config['upload_path'] = $path;
 		}
-		$config['allowed_types'] = 'gif|jpg|PNG|jpeg|png|webp';
-//        $config['max_size'] = '100';
+		$config['allowed_types'] = get_settings('UPLOAD_ALLOWED_EXTENSIONS', 'gif|jpg|jpeg|png|webp');
+		$config['max_size'] = get_settings('UPLOAD_MAX_SIZE_KB', '5120');
 //        $config['max_width'] = '1024';
 //        $config['max_height'] = '768';
 		$config['overwrite'] = FALSE;
@@ -436,7 +436,7 @@ if(!function_exists('do_upload')){
 				// Check extension
 				if (in_array($file_extension, $valid_ext)) {
 					// Compress Image
-					compressImage($config['upload_path'] . $ci->upload->data()['file_name'], $location, 60);
+					compressImage($config['upload_path'] . $ci->upload->data()['file_name'], $location, (int) get_settings('UPLOAD_IMAGE_QUALITY', '60'));
 					resize($config['upload_path'] . $ci->upload->data()['file_name'],$location);
 
 				}
@@ -469,7 +469,7 @@ if(!function_exists('do_upload')){
 					// Check extension
 					if (in_array($file_extension, $valid_ext)) {
 						// Compress Image
-						compressImage($config['upload_path'] . $ci->upload->data()['file_name'], $location, 60);
+						compressImage($config['upload_path'] . $ci->upload->data()['file_name'], $location, (int) get_settings('UPLOAD_IMAGE_QUALITY', '60'));
 					} else {
 						return "error";
 					}
@@ -492,7 +492,7 @@ if(!function_exists('do_upload')){
 
 					// Compress Image
 
-					compressImage($config['upload_path'] . $ci->upload->data()['file_name'], $location, 60);
+					compressImage($config['upload_path'] . $ci->upload->data()['file_name'], $location, (int) get_settings('UPLOAD_IMAGE_QUALITY', '60'));
 
 				} else {
 					return "error";
@@ -554,14 +554,112 @@ if(!function_exists('get_banners')){
 	}
 }
 if(!function_exists('get_settings')){
-	function get_settings($key){
+	function get_settings($key, $default = ''){
+		static $cache = null;
+		if ($cache === null) {
+			$ci =& get_instance();
+			$rows = $ci->sqlmodel->getRecords('*','settings','id','asc',array(),9999,0);
+			$cache = array();
+			if ($rows) {
+				foreach ($rows as $row) {
+					$item = (array) $row;
+					$cache[$item['setting_label']] = $item['setting_value'];
+				}
+			}
+		}
+		if (array_key_exists($key, $cache) && $cache[$key] !== '' && $cache[$key] !== null) {
+			return $cache[$key];
+		}
+		return $default;
+	}
+}
+if(!function_exists('settings_has_grouped_columns')){
+	function settings_has_grouped_columns(){
+		static $hasColumns = null;
+		if ($hasColumns !== null) {
+			return $hasColumns;
+		}
+		$ci =& get_instance();
+		$q = $ci->db->query("SHOW COLUMNS FROM settings LIKE 'setting_group'");
+		$hasColumns = ($q && $q->num_rows() > 0);
+		return $hasColumns;
+	}
+}
+if(!function_exists('get_secret_settings')){
+	function get_secret_settings($key, $default = ''){
 		$ci =& get_instance();
 		$result = $ci->sqlmodel->getSingleRecord('settings',array('setting_label' => $key));
-		if($result){
+		if($result && $result['setting_value'] !== '' && $result['setting_value'] !== null){
 			return $result['setting_value'];
-		}else{
-			return '';
 		}
+		return $default;
+	}
+}
+if(!function_exists('get_settings_group')){
+	function get_settings_group($group){
+		$ci =& get_instance();
+		if (settings_has_grouped_columns()) {
+			$rows = $ci->sqlmodel->getRecords('*','settings','sort_order','asc',array('setting_group' => $group),9999,0);
+		} else {
+			$rows = $ci->sqlmodel->getRecords('*','settings','id','asc',array(),9999,0);
+		}
+		$out = array();
+		if($rows){
+			foreach ($rows as $row) {
+				$item = (array) $row;
+				$out[$item['setting_label']] = $item;
+			}
+		}
+		return $out;
+	}
+}
+if(!function_exists('set_settings')){
+	function set_settings($key, $value){
+		$ci =& get_instance();
+		$exists = $ci->sqlmodel->getSingleRecord('settings',array('setting_label' => $key));
+		if($exists){
+			return $ci->sqlmodel->updateRecord('settings', array('setting_value' => $value), array('setting_label' => $key));
+		}
+		$insert = array(
+			'setting_title' => $key,
+			'setting_label' => $key,
+			'setting_value' => $value,
+		);
+		if (settings_has_grouped_columns()) {
+			$insert['setting_group'] = 'general';
+			$insert['setting_type'] = 'text';
+		}
+		return $ci->sqlmodel->insertRecord('settings', $insert);
+	}
+}
+if(!function_exists('site_email')){
+	function site_email(){
+		return get_settings('MAIL_FROM_EMAIL', CONFIG_EMAIL);
+	}
+}
+if(!function_exists('contact_email')){
+	function contact_email(){
+		return get_settings('MAIL_CONTACT_RECIPIENT', CONTACT_EMAIL);
+	}
+}
+if(!function_exists('site_name')){
+	function site_name(){
+		return get_settings('BRAND_SITE_NAME', get_settings('SITE_NAME', 'BrickStory'));
+	}
+}
+if(!function_exists('site_logo')){
+	function site_logo(){
+		return get_settings('BRAND_LOGO_URL', ASSETS.'images/logo.png');
+	}
+}
+if(!function_exists('admin_url')){
+	function admin_url($path = ''){
+		$segment = trim(get_settings('SYSTEM_ADMIN_URL_SEGMENT', 'brickstoryadmin'), '/');
+		$url = base_url($segment);
+		if ($path !== '') {
+			$url .= '/'.ltrim($path, '/');
+		}
+		return rtrim($url, '/').'/';
 	}
 }
 if(!function_exists('get_categories')){
@@ -700,7 +798,7 @@ if(!function_exists('write_logs')){
 			}
 			//------------------------------
 			$location = './assets/uploads/compressed/'.$name.$ext;
-			compressImage('./assets/uploads/'.$name.$ext, $location, 60);
+			compressImage('./assets/uploads/'.$name.$ext, $location, (int) get_settings('UPLOAD_IMAGE_QUALITY', '60'));
 
 			return $name.$ext;
 
@@ -746,15 +844,18 @@ if(!function_exists('save_sms_detail')){
 
 if(!function_exists('send_email')){
 	function send_email($input){
+		if (get_settings('BIZ_NOTIFY_EMAIL_ENABLED', '1') !== '1' && !isset($input['contactus'])) {
+			return 'Email notifications disabled.';
+		}
 
 		$ci =& get_instance();
 		if(isset($input['contactus'])){
-			$email['to'] = 'admin@brickstory.com';
+			$email['to'] = get_settings('MAIL_CONTACT_RECIPIENT', 'admin@brickstory.com');
 		}else{
 			$email['to'] = $input['email'];
 		}
 		$input['year'] = date("Y",time());
-		$input['site_name'] = get_settings('SITE_NAME');
+		$input['site_name'] = site_name();
 		$email['email_data'] = $input;
 
 		$data = $input;
@@ -763,50 +864,25 @@ if(!function_exists('send_email')){
 
 		$temp = $ci->parser->parse_string($template, $email['email_data']);
 		$ci->load->library('email');
-		// dd($ci->config->item('email'));
-		// $config = array(
-		// 	'protocol' => 'smtp',
-		// 	'smtp_host' => 'smtp.gmail.com',
-		// 	'smtp_port' => 587,
-		// 	'smtp_user' => 'asifahmed715@gmail.com', // Change this to your Gmail address
-		// 	'smtp_pass' => 'cxzyjhyaxqfogwlh',        // Change this to your Gmail password
-		// 	'mailtype'  => 'html',
-		// 	'charset'   => 'iso-8859-1',
-		// 	'wordwrap'  => TRUE
-		// );
-		// $config = array(
-        //     'protocol' => 'smtp',
-        //     'smtp_host' => 'smtp.gmail.com',
-        //     'smtp_port' => 587,
-        //     'smtp_user' => 'asifahmed715@gmail.com', // Change this to your Gmail address
-		// 	'smtp_pass' => 'cxzyjhyaxqfogwlh',
-        //     'smtp_crypto' => 'tls', // or 'ssl' for port 465
-        //     'mailtype'  => 'html',
-        //     'charset'   => 'utf-8',
-        //     'wordwrap'  => TRUE,
-        //     'newline'   => "\r\n",
-        //     'crlf'      => "\r\n"
-        // );
-
 		$config = array(
-			'protocol' => 'smtp',
-			'smtp_host' => 'mail.brickstory.com',
-			'smtp_port' => 465,
-			'smtp_user' => 'no-reply@brickstory.com', // Change this to your Gmail address
-			'smtp_pass' => 'Brickstory@123',        // Change this to your Gmail password
-			'mailtype'  => 'html',
-			'charset'   => 'iso-8859-1',
-			'wordwrap'  => TRUE,
-			'newline'   => "\r\n",
-            'crlf'      => "\r\n"
+			'protocol'    => get_settings('MAIL_PROTOCOL', 'smtp'),
+			'smtp_host'   => get_settings('MAIL_SMTP_HOST', 'mail.brickstory.com'),
+			'smtp_port'   => (int) get_settings('MAIL_SMTP_PORT', '465'),
+			'smtp_user'   => get_settings('MAIL_SMTP_USER', 'no-reply@brickstory.com'),
+			'smtp_pass'   => get_secret_settings('MAIL_SMTP_PASS', ''),
+			'smtp_crypto' => get_settings('MAIL_SMTP_CRYPTO', 'ssl'),
+			'mailtype'    => 'html',
+			'charset'     => 'iso-8859-1',
+			'wordwrap'    => TRUE,
+			'newline'     => "\r\n",
+            'crlf'        => "\r\n"
 		);
 		$ci->email->initialize($config);
 
 		$config['mailtype'] = 'html';
 		$ci->email->initialize($config);
 		$ci->email->to($email['to']);
-		$ci->email->from(CONFIG_EMAIL,'BrickStory');
-//		$ci->email->from(get_settings('SITE_FROM_EMAIL'),'BrickStory');
+		$ci->email->from(site_email(), get_settings('MAIL_FROM_NAME', 'BrickStory'));
 		$ci->email->subject($input['subject']);
 		$ci->email->message($temp);
 

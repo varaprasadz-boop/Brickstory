@@ -26,7 +26,7 @@
 				</div>
 				<script src="https://polyfill.io/v3/polyfill.min.js?features=default"></script>
 				<script src="https://unpkg.com/@google/markerclustererplus@4.0.1/dist/markerclustererplus.min.js"></script>
-				<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCn0PNuds8JTnyrfIMcKBeskbUuWM4Z-9I&callback=initMap&libraries=&v=weekly"  defer></script>
+				<script src="https://maps.googleapis.com/maps/api/js?key=<?php echo urlencode(get_settings('MAPS_FRONTEND_KEY', '')); ?>&callback=initMap&libraries=&v=weekly"  defer></script>
 				<script>
 
 					var map;

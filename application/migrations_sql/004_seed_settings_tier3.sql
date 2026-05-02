@@ -1,0 +1,16 @@
+INSERT IGNORE INTO settings (setting_title,setting_label,setting_value,setting_group,setting_type,is_secret,sort_order) VALUES
+('Records per page','BIZ_RECORDS_PER_PAGE','12','business','number',0,10),
+('Default search radius (miles)','BIZ_DEFAULT_SEARCH_RADIUS_MILES','25','business','number',0,20),
+('Default user role ID','BIZ_DEFAULT_USER_ROLE_ID','2','business','number',0,30),
+('Account activation expiry (hours)','BIZ_ACTIVATION_EXPIRY_HOURS','24','business','number',0,40),
+('Password reset token expiry (minutes)','BIZ_RESET_TOKEN_EXPIRY_MINUTES','60','business','number',0,50),
+('Email notifications enabled','BIZ_NOTIFY_EMAIL_ENABLED','1','business','boolean',0,60),
+('SMS notifications enabled','BIZ_NOTIFY_SMS_ENABLED','1','business','boolean',0,70),
+('Push notifications enabled','BIZ_NOTIFY_PUSH_ENABLED','1','business','boolean',0,80),
+('OTP length','BIZ_OTP_LENGTH','6','business','number',0,90),
+('OTP expiry (minutes)','BIZ_OTP_EXPIRY_MINUTES','5','business','number',0,100),
+('Allowed extensions','UPLOAD_ALLOWED_EXTENSIONS','gif|jpg|jpeg|png|webp','uploads','text',0,10),
+('Max upload size (KB)','UPLOAD_MAX_SIZE_KB','5120','uploads','number',0,20),
+('Image quality (1-100)','UPLOAD_IMAGE_QUALITY','60','uploads','number',0,30),
+('Thumbnail width','UPLOAD_THUMB_WIDTH','230','uploads','number',0,40),
+('Thumbnail height','UPLOAD_THUMB_HEIGHT','155','uploads','number',0,50);

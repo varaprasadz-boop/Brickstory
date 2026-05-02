@@ -17,7 +17,7 @@
 
 						<input class="form-control form-control-sm rounded bright" value="<?php echo get('search'); ?>" name="search" placeholder="Search" type="text">
 						<?php if(get('search')){ ?>
-							<a href="<?php echo ADMIN_URL.'settings' ?>" class="btn btn-primary btn-sm">Clear</a>
+							<a href="<?php echo admin_url('settings/advanced/1'); ?>" class="btn btn-primary btn-sm">Clear</a>
 						<?php } ?>
 					</form>
 				</div>
@@ -90,7 +90,7 @@
 								if($real_page > 1){
 									$real_page = $real_page-1;
 									$class = '';
-									$url = ADMIN_URL.'settings/index/'.$real_page;
+									$url = admin_url('settings/advanced/'.$real_page);
 								}
 								?>
 								<li class="page-item <?php echo $class; ?>"><a class="page-link" href="<?php echo $url; ?>">Previous</a></li>
@@ -102,7 +102,7 @@
 										$active = 'active';
 									}
 									?>
-									<li class="page-item <?php echo $active; ?>"><a class="page-link" href="<?php echo ADMIN_URL.'settings/index/'.$i; ?>"><?php echo $i; ?></a></li>
+									<li class="page-item <?php echo $active; ?>"><a class="page-link" href="<?php echo admin_url('settings/advanced/'.$i); ?>"><?php echo $i; ?></a></li>
 								<?php }
 								$url = '#';
 								$class2 = '';
@@ -112,7 +112,7 @@
 								if($total_pages > $real_page){
 									$real_page = $real_page+2;
 
-									$url = ADMIN_URL.'settings/index/'.$real_page;
+									$url = admin_url('settings/advanced/'.$real_page);
 								} ?>
 								<li class="page-item <?php echo $class2; ?>"><a class="page-link" href="<?php echo $url; ?>">Next</a></li>
 							</ul>

@@ -150,8 +150,9 @@ class Brickstory_model extends CI_Model {
                 if($this->state != '0' || $this->city != ''|| $this->street != '' || $this->zip != '')
                 {
                     $addresshh = strtolower($this->street).",".$this->city.",".$this->state.",".$this->zip;
-                    $addresshh = str_replace(" ", "+", $addresshh); 
-                    $url = "https://maps.google.com/maps/api/geocode/json?key=AIzaSyD-juU87aeSRIF0CmfDZujorYxy_9kKfyc&address=$addresshh";
+                    $url = "https://maps.googleapis.com/maps/api/geocode/json?key="
+                        . urlencode(get_secret_settings('MAPS_BACKEND_KEY', ''))
+                        . "&address=" . urlencode($addresshh);
                     $response = file_get_contents($url);
                     $json = json_decode($response,TRUE); 
                     $this->lat = $json['results'][0]['geometry']['location']['lat'];

@@ -1,26 +1,4 @@
-<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
-
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property Dashboard::$benchmark is deprecated /Applications/MAMP/htdocs/brickstory/system/core/Controller.php 82
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property Dashboard::$hooks is deprecated /Applications/MAMP/htdocs/brickstory/system/core/Controller.php 82
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property Dashboard::$config is deprecated /Applications/MAMP/htdocs/brickstory/system/core/Controller.php 82
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property Dashboard::$log is deprecated /Applications/MAMP/htdocs/brickstory/system/core/Controller.php 82
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property Dashboard::$utf8 is deprecated /Applications/MAMP/htdocs/brickstory/system/core/Controller.php 82
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property Dashboard::$uri is deprecated /Applications/MAMP/htdocs/brickstory/system/core/Controller.php 82
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property Dashboard::$router is deprecated /Applications/MAMP/htdocs/brickstory/system/core/Controller.php 82
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property Dashboard::$output is deprecated /Applications/MAMP/htdocs/brickstory/system/core/Controller.php 82
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property Dashboard::$security is deprecated /Applications/MAMP/htdocs/brickstory/system/core/Controller.php 82
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property Dashboard::$input is deprecated /Applications/MAMP/htdocs/brickstory/system/core/Controller.php 82
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property Dashboard::$lang is deprecated /Applications/MAMP/htdocs/brickstory/system/core/Controller.php 82
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property Dashboard::$db is deprecated /Applications/MAMP/htdocs/brickstory/system/core/Loader.php 396
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property CI_DB_mysqli_driver::$failover is deprecated /Applications/MAMP/htdocs/brickstory/system/database/DB_driver.php 371
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property Dashboard::$form_validation is deprecated /Applications/MAMP/htdocs/brickstory/system/core/Loader.php 1283
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Return type of CI_Session_files_driver::open($save_path, $name) should either be compatible with SessionHandlerInterface::open(string $path, string $name): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice /Applications/MAMP/htdocs/brickstory/system/libraries/Session/drivers/Session_files_driver.php 132
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Return type of CI_Session_files_driver::close() should either be compatible with SessionHandlerInterface::close(): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice /Applications/MAMP/htdocs/brickstory/system/libraries/Session/drivers/Session_files_driver.php 294
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Return type of CI_Session_files_driver::read($session_id) should either be compatible with SessionHandlerInterface::read(string $id): string|false, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice /Applications/MAMP/htdocs/brickstory/system/libraries/Session/drivers/Session_files_driver.php 168
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Return type of CI_Session_files_driver::write($session_id, $session_data) should either be compatible with SessionHandlerInterface::write(string $id, string $data): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice /Applications/MAMP/htdocs/brickstory/system/libraries/Session/drivers/Session_files_driver.php 237
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Return type of CI_Session_files_driver::destroy($session_id) should either be compatible with SessionHandlerInterface::destroy(string $id): bool, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice /Applications/MAMP/htdocs/brickstory/system/libraries/Session/drivers/Session_files_driver.php 317
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Return type of CI_Session_files_driver::gc($maxlifetime) should either be compatible with SessionHandlerInterface::gc(int $max_lifetime): int|false, or the #[\ReturnTypeWillChange] attribute should be used to temporarily suppress the notice /Applications/MAMP/htdocs/brickstory/system/libraries/Session/drivers/Session_files_driver.php 358
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property Dashboard::$session is deprecated /Applications/MAMP/htdocs/brickstory/system/core/Loader.php 1283
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property Dashboard::$parser is deprecated /Applications/MAMP/htdocs/brickstory/system/core/Loader.php 1283
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property Dashboard::$encryption is deprecated /Applications/MAMP/htdocs/brickstory/system/core/Loader.php 1283
-ERROR - 2026-04-28 02:22:08 --> Severity: 8192 --> Creation of dynamic property Dashboard::$sqlmodel is deprecated /Applications/MAMP/htdocs/brickstory/system/core/Loader.php 358
+ERROR - 2026-04-28 15:39:22 --> 404 Page Not Found: brickstoryadmin/Properties/favicon.png
+ERROR - 2026-04-28 15:40:29 --> 404 Page Not Found: brickstoryadmin/Properties/favicon.png
+ERROR - 2026-04-28 15:47:48 --> Twilio not configured: missing SID or token in settings.
+ERROR - 2026-04-28 15:47:59 --> 404 Page Not Found: brickstoryadmin/Dashboard/favicon.png

@@ -4,7 +4,7 @@
 <?php //pre($this->session->userdata()); ?>
 <div class="menu-mobile menu-activated-on-click color-scheme-dark">
 	<div class="mm-logo-buttons-w">
-		<a class="mm-logo" href="<?php echo ADMIN_URL; ?>">
+		<a class="mm-logo" href="<?php echo admin_url(); ?>">
 <!--			<div class="logo-element"></div>-->
 			<span>BrickStory</span>
 		</a>
@@ -36,14 +36,14 @@
 		-------------------->
 		<ul class="main-menu">
 			<li class="selected">
-				<a href="<?php echo ADMIN_URL.'dashboard'; ?>">
+				<a href="<?php echo admin_url('dashboard'); ?>">
 					<div class="icon-w">
 						<div class="os-icon os-icon-layout"></div>
 					</div>
 					<span>Dashboard</span></a>
 			</li>
 			<li class="">
-				<a href="<?php echo ADMIN_URL.'users'; ?>">
+				<a href="<?php echo admin_url('users'); ?>">
 					<div class="icon-w">
 						<div class="os-icon os-icon-user"></div>
 					</div>
@@ -53,28 +53,28 @@
 				<span>CUSTOM - NAVIGATION</span>
 			</li>
 			<li class="">
-				<a href="<?php echo base_url().'/dashboard/1'; ?>">
+				<a href="<?php echo admin_url('properties'); ?>">
 					<div class="icon-w">
 						<div class="os-icon os-icon-home"></div>
 					</div>
 					<span>Properties</span></a>
 			</li>
 			<li class="">
-				<a href="<?php echo ADMIN_URL.'cms' ?>">
+				<a href="<?php echo admin_url('cms'); ?>">
 					<div class="icon-w">
 						<div class="os-icon os-icon-window-content"></div>
 					</div>
 					<span>CMS</span></a>
 			</li>
 			<li class="">
-				<a href="<?php echo ADMIN_URL.'banners'; ?>">
+				<a href="<?php echo admin_url('banners'); ?>">
 					<div class="icon-w">
 						<div class="os-icon os-icon-image"></div>
 					</div>
 					<span>Banners</span></a>
 			</li>
 			<li class="">
-				<a href="<?php echo ADMIN_URL.'emailtemplates' ?>">
+				<a href="<?php echo admin_url('emailtemplates'); ?>">
 					<div class="icon-w">
 						<div class="os-icon os-icon-file-text"></div>
 					</div>
@@ -88,14 +88,14 @@
 			<!--				<span>Newsletter</span></a>-->
 			<!--		</li>-->
 			<li class="">
-				<a href="<?php echo ADMIN_URL.'settings' ?>">
+				<a href="<?php echo admin_url('settings/group/mail'); ?>">
 					<div class="icon-w">
 						<div class="os-icon os-icon-settings"></div>
 					</div>
 					<span>Settings</span></a>
 			</li>
 			<li class="">
-				<a href="<?php echo ADMIN_URL.'account/logout' ?>">
+				<a href="<?php echo admin_url('account/logout'); ?>">
 					<div class="icon-w">
 						<div class="os-icon os-icon-log-out"></div>
 					</div>
@@ -148,14 +148,14 @@ END - Mobile Menu
 			<span>Default Navigation</span>
 		</li>
 		<li class="selected">
-			<a href="<?php echo ADMIN_URL.'dashboard'; ?>">
+			<a href="<?php echo admin_url('dashboard'); ?>">
 				<div class="icon-w">
 					<div class="os-icon os-icon-layout"></div>
 				</div>
 				<span>Dashboard</span></a>
 		</li>
 		<li class="">
-			<a href="<?php echo ADMIN_URL.'users'; ?>">
+			<a href="<?php echo admin_url('users'); ?>">
 				<div class="icon-w">
 					<div class="os-icon os-icon-user"></div>
 				</div>
@@ -165,28 +165,28 @@ END - Mobile Menu
 			<span>CUSTOM - NAVIGATION</span>
 		</li>
 		<li class="">
-				<a href="<?php echo base_url().'dashboard/1'; ?>">
+				<a href="<?php echo admin_url('properties'); ?>">
 					<div class="icon-w">
 						<div class="os-icon os-icon-home"></div>
 					</div>
 					<span>Properties</span></a>
 			</li>
 		<li class="">
-			<a href="<?php echo ADMIN_URL.'cms' ?>">
+			<a href="<?php echo admin_url('cms'); ?>">
 				<div class="icon-w">
 					<div class="os-icon os-icon-window-content"></div>
 				</div>
 				<span>CMS</span></a>
 		</li>
 		<li class="">
-			<a href="<?php echo ADMIN_URL.'banners'; ?>">
+			<a href="<?php echo admin_url('banners'); ?>">
 				<div class="icon-w">
 					<div class="os-icon os-icon-image"></div>
 				</div>
 				<span>Banners</span></a>
 		</li>
 		<li class="">
-			<a href="<?php echo ADMIN_URL.'emailtemplates' ?>">
+			<a href="<?php echo admin_url('emailtemplates'); ?>">
 				<div class="icon-w">
 					<div class="os-icon os-icon-file-text"></div>
 				</div>
@@ -200,14 +200,14 @@ END - Mobile Menu
 <!--				<span>Newsletter</span></a>-->
 <!--		</li>-->
 		<li class="">
-			<a href="<?php echo ADMIN_URL.'settings' ?>">
+			<a href="<?php echo admin_url('settings/group/mail'); ?>">
 				<div class="icon-w">
 					<div class="os-icon os-icon-settings"></div>
 				</div>
 				<span>Settings</span></a>
 		</li>
 		<li class="">
-			<a href="<?php echo ADMIN_URL.'account/logout' ?>">
+			<a href="<?php echo admin_url('account/logout'); ?>">
 				<div class="icon-w">
 					<div class="os-icon os-icon-log-out"></div>
 				</div>

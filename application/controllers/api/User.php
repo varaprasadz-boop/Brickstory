@@ -92,9 +92,10 @@ class User extends CI_Controller {
 
 			$post['status'] = 0;
 			$post['password'] = encriptsha1($post['password']);
-			$post['role_id'] = 2;
+			$post['role_id'] = (int) get_settings('BIZ_DEFAULT_USER_ROLE_ID', '2');
 			$post['activation_code'] = get_random_string();
-			$post['activation_expiry'] = date('Y:m:d H:i:s', strtotime('+1 day', now()));
+			$hours = (int) get_settings('BIZ_ACTIVATION_EXPIRY_HOURS', '24');
+			$post['activation_expiry'] = date('Y-m-d H:i:s', strtotime("+{$hours} hours", now()));
 			$user_id = $this->sqlmodel->insertRecord("users",$post);
 
 			$post['emailContent'] = $this->sqlmodel->getSingleRecord("email_template",array("template_name" => "registration_template"));
@@ -190,7 +191,17 @@ class User extends CI_Controller {
 				$post['subject'] = $post['emailContent']['template_subject'];
 				$post['company_name'] = $user['firstname'].' '.$user['lastname'];
 				//$this->sqlmodel->updateRecord("users", array("reset_pass_expire" => time() + 3600), array("id" => $user['id']));
-				$post['link'] = base_url('account/reset_password/' . md5($user['id']));
+				$token = bin2hex(random_bytes(32));
+				$minutes = (int) get_settings('BIZ_RESET_TOKEN_EXPIRY_MINUTES', '60');
+				$this->sqlmodel->updateRecord(
+					'users',
+					array(
+						'reset_token' => $token,
+						'reset_token_expiry' => date('Y-m-d H:i:s', strtotime("+{$minutes} minutes")),
+					),
+					array('id' => $user['id'])
+				);
+				$post['link'] = base_url('account/reset_password/' . $token);
 				send_email($post);
 				
                 $this->output
@@ -214,11 +225,11 @@ class User extends CI_Controller {
 		$lat = isset($get['lat'])?($get['lat']):('');
 		$lng = isset($get['lng'])?($get['lng']):('');
 		$data['get'] = get();
-		$dis = 10000;
+		$dis = (int) get_settings('BIZ_DEFAULT_SEARCH_RADIUS_MILES', '10000');
 		$data['pagelink'] = $page;
 		$page = ($page >=0)?($page - 1):($page);
-		$start = ($page * get_settings('RECORD_PER_PAGE'));
-		$data['limit'] = get_settings('RECORD_PER_PAGE');
+		$start = ($page * get_settings('BIZ_RECORDS_PER_PAGE', get_settings('RECORD_PER_PAGE', 12)));
+		$data['limit'] = get_settings('BIZ_RECORDS_PER_PAGE', get_settings('RECORD_PER_PAGE', 12));
 		$data['page'] = $page;
 
 		$data['real_page']=$page;

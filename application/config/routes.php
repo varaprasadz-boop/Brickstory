@@ -79,6 +79,12 @@ $route['dashboard/update_people_image'] = "dashboard/update_people_image";
 // ------- Admin Routes -------
 $url_perfix = "brickstoryadmin/";
 $route[$url_perfix.'login'] = $url_perfix."/account/login";
+$route[$url_perfix.'settings/group/(:any)'] = $url_perfix."settings/group/$1";
+$route[$url_perfix.'settings/advanced/(:num)'] = $url_perfix."settings/advanced/$1";
+$route[$url_perfix.'settings/save/(:any)'] = $url_perfix."settings/save/$1";
+$route[$url_perfix.'settings/test_smtp'] = $url_perfix."settings/test_smtp";
+$route[$url_perfix.'settings/test_twilio'] = $url_perfix."settings/test_twilio";
+$route[$url_perfix.'settings/test_maps'] = $url_perfix."settings/test_maps";
 $route['send_sms']['GET']     = 'Home/send_sms';
 
 

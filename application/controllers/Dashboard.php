@@ -32,6 +32,9 @@ class Dashboard extends My_Controller {
 	}
 
 	public function send_sms($num,$type,$address='',$id=0) {
+		if (get_settings('BIZ_NOTIFY_SMS_ENABLED', '1') !== '1') {
+			return;
+		}
         // $to = '+1-248-417-0470'; // Recipient's phone number
 		$num = $this->formatPhoneNumber($num);
         // $message = 'Hello, this is a test message from CodeIgniter!';
@@ -54,7 +57,8 @@ Please click here $link to see what has been added.";
 		}
 
         $check_sms_per_day = check_sms_per_day($num);
-		if($check_sms_per_day <= 3){
+		$dailyLimit = (int) get_settings('SMS_DAILY_LIMIT_PER_PHONE', '5');
+		if($check_sms_per_day <= $dailyLimit){
         	$result = $this->twilio_lib->send_sms($num, $message);
 			if ($result) {
 				save_sms_detail($num,$message,1);

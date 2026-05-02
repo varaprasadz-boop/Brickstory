@@ -78,7 +78,17 @@ class Account extends CI_Controller {
 				$post['subject'] = $post['emailContent']['template_subject'];
 				$post['company_name'] = $user['firstname'].' '.$user['lastname'];
 				//$this->sqlmodel->updateRecord("users", array("reset_pass_expire" => time() + 3600), array("id" => $user['id']));
-				$post['link'] = base_url('account/reset_password/' . md5($user['id']));
+				$token = bin2hex(random_bytes(32));
+				$minutes = (int) get_settings('BIZ_RESET_TOKEN_EXPIRY_MINUTES', '60');
+				$this->sqlmodel->updateRecord(
+					'users',
+					array(
+						'reset_token' => $token,
+						'reset_token_expiry' => date('Y-m-d H:i:s', strtotime("+{$minutes} minutes")),
+					),
+					array('id' => $user['id'])
+				);
+				$post['link'] = base_url('account/reset_password/' . $token);
 				send_email($post);
 				set_msg('success', 'Password reset email has been sent.');
 			} else {
@@ -89,8 +99,8 @@ class Account extends CI_Controller {
 	}
 	public function reset_password($user_id='')
 	{
-		$user = $this->sqlmodel->getSingleRecord('users',array('md5(id)' => $user_id));
-		if(!isset($user['email'])){
+		$user = $this->sqlmodel->getSingleRecord('users',array('reset_token' => $user_id));
+		if(!isset($user['email']) || empty($user['reset_token_expiry']) || strtotime($user['reset_token_expiry']) < time()){
 			redirect(base_url());
 		}
 		fv('password','password','required|trim');
@@ -102,7 +112,15 @@ class Account extends CI_Controller {
 		}else{
 			if(isset($user['email'])){
 				$post = $user;
-				$this->sqlmodel->updateRecord("users",array("password" => encriptsha1(post('password'))),array("id" => $user['id']));
+				$this->sqlmodel->updateRecord(
+					"users",
+					array(
+						"password" => encriptsha1(post('password')),
+						'reset_token' => null,
+						'reset_token_expiry' => null,
+					),
+					array("id" => $user['id'])
+				);
 				$post['emailContent'] = $this->sqlmodel->getSingleRecord("email_template",array("template_name" => "password_reset_success"));
 				$post['subject'] = $post['emailContent']['template_subject'];
 				$post['template_path'] = "email_templates/password_reset_success";
@@ -133,9 +151,10 @@ class Account extends CI_Controller {
 
 			$post['status'] = 0;
 			$post['password'] = encriptsha1($post['password']);
-			$post['role_id'] = 2;
+			$post['role_id'] = (int) get_settings('BIZ_DEFAULT_USER_ROLE_ID', '2');
 			$post['activation_code'] = get_random_string();
-			$post['activation_expiry'] = date('Y:m:d H:i:s', strtotime('+1 day', now()));
+			$hours = (int) get_settings('BIZ_ACTIVATION_EXPIRY_HOURS', '24');
+			$post['activation_expiry'] = date('Y-m-d H:i:s', strtotime("+{$hours} hours", now()));
 			$user_id = $this->sqlmodel->insertRecord("users",$post);
 
 			$post['emailContent'] = $this->sqlmodel->getSingleRecord("email_template",array("template_name" => "registration_template"));
